@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_address"
+    app:startDestination="@id/inputCountry_Fragment">
+
+    <fragment
+        android:id="@+id/inputCountry_Fragment"
+        android:name="com.example.rentalmanagement.Fragments.InputCountry_Fragment"
+        android:label="fragment_input_country_"
+        tools:layout="@layout/fragment_input_country_" >
+        <action
+            android:id="@+id/action_inputCountry_Fragment_to_inputCity_Fragment"
+            app:destination="@id/inputCity_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/inputCity_Fragment"
+        android:name="com.example.rentalmanagement.Fragments.InputCity_Fragment"
+        android:label="fragment_input_city_"
+        tools:layout="@layout/fragment_input_city_" >
+        <action
+            android:id="@+id/action_inputCity_Fragment_to_inputDistrict_Fragment"
+            app:destination="@id/inputDistrict_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/inputDistrict_Fragment"
+        android:name="com.example.rentalmanagement.Fragments.InputDistrict_Fragment"
+        android:label="fragment_input_district_"
+        tools:layout="@layout/fragment_input_district_" >
+        <action
+            android:id="@+id/action_inputDistrict_Fragment_to_inputWard_Fragment"
+            app:destination="@id/inputWard_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/inputOtherAddressInfo_Fragment"
+        android:name="com.example.rentalmanagement.Fragments.InputOtherAddressInfo_Fragment"
+        android:label="fragment_input_other_address_info_"
+        tools:layout="@layout/fragment_input_other_address_info_" />
+    <fragment
+        android:id="@+id/inputWard_Fragment"
+        android:name="com.example.rentalmanagement.Fragments.InputWard_Fragment"
+        android:label="fragment_input_ward_"
+        tools:layout="@layout/fragment_input_ward_" >
+        <action
+            android:id="@+id/action_inputWard_Fragment_to_inputOtherAddressInfo_Fragment"
+            app:destination="@id/inputOtherAddressInfo_Fragment" />
+    </fragment>
+</navigation>

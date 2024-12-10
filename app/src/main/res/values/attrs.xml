@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StepBar">
+        <attr name="stepCount" format="integer"/>
+        <attr name="currentStep" format="integer"/>
+        <attr name="barColor" format="color"/>
+        <attr name="mockColor" format="color"/>
+        <attr name="canGoUpTo" format="integer"/>
+        <attr name="inactiveBarColor" format="color"/>
+        <attr name="inactiveMockColor" format="color"/>
+    </declare-styleable>
+</resources>

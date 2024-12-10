@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">RentalManagement</string>
+    <string name="home_fab_description">Button to add new rental location</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_address_hint_country">Your Country is …</string>
+    <string name="add_address_hint_city">Your City is …</string>
+    <string name="add_address_hint_district">Your District is …</string>
+    <string name="add_address_hint_ward">Your Ward is …</string>
+
+    <string name="add_other_address_hint_street">Your Street is …</string>
+    <string name="add_other_address_hint_houseNumber">Your House Number is …</string>
+
+    <string name="button_finish">Submit</string>
+
+</resources>
