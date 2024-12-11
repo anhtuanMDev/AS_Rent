@@ -20,10 +20,6 @@ class InputCountry_Fragment : Fragment() {
     private lateinit var edt: AutoCompleteTextView
     private lateinit var bind: FragmentInputCountryBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         Log.d(TAG, "onDestroy: InputCountry_Fragment")
@@ -37,6 +33,16 @@ class InputCountry_Fragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume: InputCountry_Fragment")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause: InputCountry_Fragment")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop: InputCountry_Fragment")
     }
 
     override fun onCreateView(
