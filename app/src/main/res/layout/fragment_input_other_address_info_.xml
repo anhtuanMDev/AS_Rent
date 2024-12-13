@@ -15,6 +15,7 @@
         android:orientation="horizontal">
 
         <ImageButton
+            android:id="@+id/add_img_house"
             android:layout_width="100dp"
             android:layout_height="100dp"/>
 
@@ -35,7 +36,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="4dp"
                 android:hint="@string/add_other_address_hint_street"
-                android:inputType="text" />
+                android:inputType="number" />
 
         </LinearLayout>
 

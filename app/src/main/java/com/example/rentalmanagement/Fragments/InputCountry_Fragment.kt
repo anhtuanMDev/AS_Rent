@@ -53,12 +53,6 @@ class InputCountry_Fragment : Fragment() {
         edt = bind.edtCountry
 
         // Set up the listener for when the country text field loses focus (blur)
-        edt.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                updateCountryInViewModel()
-                findNavController().navigate(R.id.inputCity_Fragment)
-            }
-        }
 
         // Listen for the "Done" action on the keyboard and blur the field
         edt.setOnEditorActionListener { _, actionId, _ ->
@@ -73,6 +67,16 @@ class InputCountry_Fragment : Fragment() {
         }
 
         return bind.root
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        edt.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                updateCountryInViewModel()
+                findNavController().navigate(R.id.inputCity_Fragment)
+            }
+        }
     }
 
     // Update the ViewModel with the new country value

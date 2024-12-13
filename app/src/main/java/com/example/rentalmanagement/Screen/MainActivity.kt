@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.rentalmanagement.Models.EntityAddress
 import com.example.rentalmanagement.R
 import com.example.rentalmanagement.ViewModels.AddressViewModel
 import com.example.rentalmanagement.databinding.ActivityMainBinding
@@ -21,9 +22,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rcv: RecyclerView
     private val viewModel: AddressViewModel by viewModels()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
@@ -43,9 +46,6 @@ class MainActivity : AppCompatActivity() {
 //
 //            // Fetch all addresses
 //            val addresses = db.addressDAO().getAddress()
-//            addresses.forEach {
-//                println("Address: ${it.street}, ${it.city}, ${it.zip}")
-//            }
 //        }
 
         viewModel.address.observe(this) {address ->
