@@ -16,6 +16,7 @@
 
         <ImageButton
             android:id="@+id/add_img_house"
+            android:scaleType="fitCenter"
             android:layout_width="100dp"
             android:layout_height="100dp"/>
 
@@ -63,6 +64,7 @@
         android:inputType="text" />
 
     <Button
+        android:id="@+id/btn_finish"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:backgroundTint="@color/blue"

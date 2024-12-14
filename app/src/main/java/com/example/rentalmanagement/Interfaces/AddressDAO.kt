@@ -17,7 +17,7 @@ interface AddressDAO {
     suspend fun updateAddress(address: EntityAddress)
 
     @Query("SELECT * FROM entityaddress")
-    suspend fun getAddress(): List<EntityAddress>
+    fun getAddress(): List<EntityAddress>
 
     @Delete
     suspend fun delete(address: EntityAddress)

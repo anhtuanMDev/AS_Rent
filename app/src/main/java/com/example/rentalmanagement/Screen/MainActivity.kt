@@ -8,19 +8,28 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rentalmanagement.Models.EntityAddress
+import com.example.rentalmanagement.Adapters.HouseAdapter
+import com.example.rentalmanagement.Database.AddressRepo
+import com.example.rentalmanagement.Database.DatabaseInstance
 import com.example.rentalmanagement.R
 import com.example.rentalmanagement.ViewModels.AddressViewModel
 import com.example.rentalmanagement.databinding.ActivityMainBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var fab: FloatingActionButton
     private lateinit var rcv: RecyclerView
     private val viewModel: AddressViewModel by viewModels()
+    private lateinit var repo: AddressRepo
+    private lateinit var adapter: HouseAdapter
+    private val TAG: String = "Activity Main log"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,18 +47,24 @@ class MainActivity : AppCompatActivity() {
 
         fab = binding.homeFab
         rcv = binding.homeRcv
+        val db = DatabaseInstance.getDatabase(this@MainActivity)
+        repo = AddressRepo(db.addressDao())
 
-//        lifecycleScope.launch {
-//            // Insert an address
-//            val address = EntityAddress(id = 1, street = "123 Main St", city = "Some City", zip = "12345")
-//            db.addressDAO().insertAddress(address)
-//
-//            // Fetch all addresses
-//            val addresses = db.addressDAO().getAddress()
-//        }
+        adapter = HouseAdapter(emptyList())
+        rcv.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
+        rcv.adapter = adapter
+
+        // Load data asynchronously and update the adapter
+        lifecycleScope.launch(Dispatchers.IO) {
+            val addresses = repo.getAllHouse()
+            Log.d(TAG, "onCreate: House Data = " + addresses.toString())
+            launch(Dispatchers.Main) {
+                adapter.updateData(addresses)
+            }
+        }
 
         viewModel.address.observe(this) {address ->
-            Log.d("View Model Address", "onCreate: $address")
+            Log.d(TAG, "onCreate: INPUT = $address")
         }
 
         fab.setOnClickListener {

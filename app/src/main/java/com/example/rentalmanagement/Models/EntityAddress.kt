@@ -3,7 +3,6 @@ package com.example.rentalmanagement.Models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.rentalmanagement.Enums.DepartmentTypeEnum
 
 @Entity
 data class EntityAddress (
