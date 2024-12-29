@@ -1,16 +1,33 @@
 <resources>
-    <string name="app_name">RentalManagement</string>
-    <string name="home_fab_description">Button to add new rental location</string>
+    <!-- GLOBAL VARIABLE-->
+    <string name="app_name">Quản lý chung cư</string>
+    <string-array name="apartment_type">
+        <item>NHÀ CHO THUÊ</item>
+        <item>CHUNG CƯ</item>
+        <item>DÃY TRỌ</item>
+    </string-array>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="add_address_hint_country">Your Country is …</string>
-    <string name="add_address_hint_city">Your City is …</string>
-    <string name="add_address_hint_district">Your District is …</string>
-    <string name="add_address_hint_ward">Your Ward is …</string>
+    <!-- MAIN ACTIVITY UX-UI-->
 
-    <string name="add_other_address_hint_street">Your Street is …</string>
-    <string name="add_other_address_hint_houseNumber">Your House Number is …</string>
+    <!-- => UX/UI-->
+    <string name="button_finish">Hoàn tất</string>
 
-    <string name="button_finish">Submit</string>
+    <!-- => DESCRIPTION   -->
+    <string name="home_fab_description">Nút thêm mới địa chỉ căn hộ cho thuê</string>
+
+    <!-- ADDRESS BOTTOM SHEET UX-UI-->
+
+    <!-- => UX/UI-->
+    <string name="bts_edt_electric">Tiền điện</string>
+    <string name="bts_edt_water">Tiền nước</string>
+    <string name="bts_edt_rooms">Số phòng</string>
+    <string name="bts_edt_price">Tiền phòng</string>
+
+    <!-- => DESCRIPTION   -->
+    <string name="bts_img_description">Hình ảnh đại diện cho căn nhà</string>
+    <string name="bts_edt_electric_description">Nhập tiền điện hàng tháng</string>
+    <string name="bts_edt_water_description">Nhập tiền điện hàng tháng</string>
+
+
 
 </resources>
