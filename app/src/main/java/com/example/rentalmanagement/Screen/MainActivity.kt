@@ -11,22 +11,25 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rentalmanagement.Adapters.HouseAdapter
 import com.example.rentalmanagement.Database.AddressRepo
-import com.example.rentalmanagement.Database.DatabaseInstance
+import com.example.rentalmanagement.Models.EntityAddress
 import com.example.rentalmanagement.R
-import com.example.rentalmanagement.ViewModels.AddressViewModel
+import com.example.rentalmanagement.ViewModels.HouseViewModels
 import com.example.rentalmanagement.databinding.ActivityMainBinding
 import com.example.rentalmanagement.databinding.BottomsheetAddAddressBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -39,11 +42,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var fab: FloatingActionButton
     private lateinit var rcv: RecyclerView
-    private val viewModel: AddressViewModel by viewModels()
     private lateinit var repo: AddressRepo
     private lateinit var adapter: HouseAdapter
     private var fileUri: Uri? = null
     private val TAG: String = "Activity Main log"
+    private lateinit var houseVM: HouseViewModels
     private var bottomSheetBinding: BottomsheetAddAddressBinding? = null
 
     private fun createImage(uri: Uri, name: String) {
@@ -53,7 +56,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         try {
-
             val image = File(cache, name)
             val bitmap = this.contentResolver.openInputStream(uri).use { inputStream ->
                 BitmapFactory.decodeStream(inputStream)
@@ -98,7 +100,11 @@ class MainActivity : AppCompatActivity() {
                             // Assuming `bottomSheetBinding` is accessible here or pass it as needed
                             bottomSheetBinding?.btsImg?.setImageURI(fileUri)
                         } else {
-                            Toast.makeText(this@MainActivity, "Failed to set image", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Failed to set image",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 }
@@ -133,21 +139,13 @@ class MainActivity : AppCompatActivity() {
 
         fab = binding.homeFab
         rcv = binding.homeRcv
-        val db = DatabaseInstance.getDatabase(this@MainActivity)
-        repo = AddressRepo(db.addressDao())
-
-        adapter = HouseAdapter(emptyList())
+        houseVM = ViewModelProvider(this)[HouseViewModels::class.java]
+        adapter = HouseAdapter()
+        houseVM.getData.observe(this, Observer { data ->
+            adapter.updateData(data)
+        })
         rcv.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
         rcv.adapter = adapter
-
-        // Load data asynchronously and update the adapter
-        lifecycleScope.launch(Dispatchers.IO) {
-            val addresses = repo.getAllHouse()
-            Log.d(TAG, "onCreate: House Data = " + addresses.toString())
-            launch(Dispatchers.Main) {
-                adapter.updateData(addresses)
-            }
-        }
 
         fab.setOnClickListener {
             showBottomSheet()
@@ -179,9 +177,46 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        // Show the BottomSheetDialog
+        bottomSheetBinding?.btsSpinner!!.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val selectedItem = parent?.getItemAtPosition(position).toString()
+                    Log.d(TAG, "Spinner selected item: $selectedItem")
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    Toast.makeText(this@MainActivity, "Nothing selected", Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "Spinner nothing selected")
+                }
+            }
+
+        bottomSheetBinding?.btsBtnFinish!!.setOnClickListener {
+            val address = bottomSheetBinding!!.btsEdtAddress.text.toString()
+            val electric = bottomSheetBinding!!.btsEdtElectric.text.toString().toInt()
+            val water = bottomSheetBinding!!.btsEdtWater.text.toString().toInt()
+            val rooms = bottomSheetBinding!!.btsEdtRooms.text.toString().toInt()
+            val price = bottomSheetBinding!!.btsEdtPrice.text.toString().toInt()
+            val departmentType = bottomSheetBinding!!.btsSpinner.selectedItem.toString()
+            houseVM.addHouse(
+                EntityAddress(
+                    0,
+                    fileUri.toString(),
+                    address,
+                    electric,
+                    water,
+                    price,
+                    departmentType,
+                    rooms
+                )
+            )
+            bottomSheetDialog.dismiss()
+        }
         bottomSheetDialog.show()
     }
-
 
 }

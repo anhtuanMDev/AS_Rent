@@ -7,13 +7,11 @@ import androidx.room.PrimaryKey
 @Entity
 data class EntityAddress (
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    @ColumnInfo(name = "ward") val ward: String,
-    @ColumnInfo(name = "street") val street: String,
-    @ColumnInfo(name = "house_number") val houseNumber: String,
     @ColumnInfo(name = "image_path") val imagePath: String,
-    @ColumnInfo(name = "district") val district: String,
-    @ColumnInfo(name = "city") val city: String,
-    @ColumnInfo(name = "country") val country: String,
+    @ColumnInfo(name = "address") val address: String,
+    @ColumnInfo(name = "electricity") val electricity: Int,
+    @ColumnInfo(name = "water") val water: Int,
+    @ColumnInfo(name = "price") val price: Int,
     @ColumnInfo(name = "departmentType") val departmentType: String,
     @ColumnInfo(name = "room") val room: Int,
 )

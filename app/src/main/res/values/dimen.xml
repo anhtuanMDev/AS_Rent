@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="stroke_width">1dp</dimen>
+    
+    <dimen name="small_corner_round">3dp</dimen>
+    <dimen name="medium_corner_round">8dp</dimen>
+    <dimen name="big_corner_round">15dp</dimen>
+</resources>

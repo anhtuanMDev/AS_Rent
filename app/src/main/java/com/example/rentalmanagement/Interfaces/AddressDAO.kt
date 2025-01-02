@@ -1,5 +1,6 @@
 package com.example.rentalmanagement.Interfaces
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -17,7 +18,7 @@ interface AddressDAO {
     suspend fun updateAddress(address: EntityAddress)
 
     @Query("SELECT * FROM entityaddress")
-    fun getAddress(): List<EntityAddress>
+    fun getAddress(): LiveData<List<EntityAddress>>
 
     @Delete
     suspend fun delete(address: EntityAddress)

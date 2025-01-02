@@ -22,6 +22,7 @@
     <string name="bts_edt_water">Tiền nước</string>
     <string name="bts_edt_rooms">Số phòng</string>
     <string name="bts_edt_price">Tiền phòng</string>
+    <string name="bts_edt_address">Địa chỉ</string>
 
     <!-- => DESCRIPTION   -->
     <string name="bts_img_description">Hình ảnh đại diện cho căn nhà</string>

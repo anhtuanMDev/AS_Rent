@@ -4,13 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rentalmanagement.Models.EntityAddress
 import com.example.rentalmanagement.R
 
-class HouseAdapter(private var dataset: List<EntityAddress>) :
+class HouseAdapter() :
     RecyclerView.Adapter<HouseAdapter.ViewHolder>() {
-
+    private var dataset: List<EntityAddress> = emptyList()
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     }
 
@@ -25,6 +26,7 @@ class HouseAdapter(private var dataset: List<EntityAddress>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val address = dataset[position]
+        holder.itemView.findViewById<TextView>(R.id.house_holder_address).text = address.address
     }
 
     // Method to update the data dynamically
