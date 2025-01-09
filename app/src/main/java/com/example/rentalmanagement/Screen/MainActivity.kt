@@ -24,14 +24,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rentalmanagement.Adapters.HouseAdapter
-import com.example.rentalmanagement.Database.AddressRepo
 import com.example.rentalmanagement.Models.EntityAddress
 import com.example.rentalmanagement.R
 import com.example.rentalmanagement.ViewModels.HouseViewModels
 import com.example.rentalmanagement.databinding.ActivityMainBinding
 import com.example.rentalmanagement.databinding.BottomsheetAddAddressBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
@@ -42,7 +43,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var fab: FloatingActionButton
     private lateinit var rcv: RecyclerView
-    private lateinit var repo: AddressRepo
     private lateinit var adapter: HouseAdapter
     private var fileUri: Uri? = null
     private val TAG: String = "Activity Main log"
@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity() {
     private fun showBottomSheet() {
         // Create the BottomSheetDialog
         val bottomSheetDialog = BottomSheetDialog(this)
-
+        bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
         // Use the correct way to inflate the BottomSheet layout using view binding
         bottomSheetBinding = BottomsheetAddAddressBinding.inflate(LayoutInflater.from(this))
 
@@ -177,28 +177,26 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        bottomSheetBinding?.btsSpinner!!.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    val selectedItem = parent?.getItemAtPosition(position).toString()
-                    Log.d(TAG, "Spinner selected item: $selectedItem")
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    Toast.makeText(this@MainActivity, "Nothing selected", Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, "Spinner nothing selected")
-                }
-            }
+//        bottomSheetBinding?.btsSpinner!!.onItemSelectedListener =
+//            object : AdapterView.OnItemSelectedListener {
+//                override fun onItemSelected(
+//                    parent: AdapterView<*>?,
+//                    view: View?,
+//                    position: Int,
+//                    id: Long
+//                ) {
+//                    val selectedItem = parent?.getItemAtPosition(position).toString()
+//                    Log.d(TAG, "Spinner selected item: $selectedItem")
+//                }
+//
+//                override fun onNothingSelected(parent: AdapterView<*>?) {
+//                    Toast.makeText(this@MainActivity, "Nothing selected", Toast.LENGTH_SHORT).show()
+//                    Log.d(TAG, "Spinner nothing selected")
+//                }
+//            }
 
         bottomSheetBinding?.btsBtnFinish!!.setOnClickListener {
             val address = bottomSheetBinding!!.btsEdtAddress.text.toString()
-            val electric = bottomSheetBinding!!.btsEdtElectric.text.toString().toInt()
-            val water = bottomSheetBinding!!.btsEdtWater.text.toString().toInt()
             val rooms = bottomSheetBinding!!.btsEdtRooms.text.toString().toInt()
             val price = bottomSheetBinding!!.btsEdtPrice.text.toString().toInt()
             val departmentType = bottomSheetBinding!!.btsSpinner.selectedItem.toString()
@@ -207,11 +205,12 @@ class MainActivity : AppCompatActivity() {
                     0,
                     fileUri.toString(),
                     address,
-                    electric,
-                    water,
                     price,
                     departmentType,
-                    rooms
+                    rooms,
+                    0,
+                    "",
+                    0.0
                 )
             )
             bottomSheetDialog.dismiss()
