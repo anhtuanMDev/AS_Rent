@@ -1,5 +1,6 @@
 package com.example.rentalmanagement.Models
 
+import androidx.lifecycle.LiveData
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -15,4 +16,9 @@ data class EntityAddress (
     @ColumnInfo(name = "floor")val floor: Int?,
     @ColumnInfo(name = "utilities")val utilities: String,
     @ColumnInfo(name = "managementFee")val managementFee: Double?,
+)
+
+data class HouseAndRoom (
+    val house: EntityAddress,
+    val rooms: LiveData<List<RoomSmallDisplay>>
 )

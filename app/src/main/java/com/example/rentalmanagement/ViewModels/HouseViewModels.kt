@@ -7,17 +7,19 @@ import androidx.lifecycle.viewModelScope
 import com.example.rentalmanagement.Database.AddressRepo
 import com.example.rentalmanagement.Database.AppDatabase
 import com.example.rentalmanagement.Models.EntityAddress
+import com.example.rentalmanagement.Models.EntityRoom
+import com.example.rentalmanagement.Models.RoomSmallDisplay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HouseViewModels(application: Application): AndroidViewModel(application) {
+class HouseViewModels(application: Application) : AndroidViewModel(application) {
     val getData: LiveData<List<EntityAddress>>
     private val houseRepo: AddressRepo
 
     init {
         val houseDao = AppDatabase.getDatabase(application).addressDao()
         val repo = AddressRepo(houseDao)
-        getData = repo.getHouseData
+        getData = repo.getHouseData()
         houseRepo = repo
     }
 
@@ -25,5 +27,9 @@ class HouseViewModels(application: Application): AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             houseRepo.insertNewHouse(data)
         }
+    }
+
+    suspend fun getDisplayRoom(houseID: Int): LiveData<List<RoomSmallDisplay>> {
+        return houseRepo.getDisplayRoom(houseID)
     }
 }

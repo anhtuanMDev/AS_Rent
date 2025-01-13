@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rentalmanagement.Adapters.HouseAdapter
 import com.example.rentalmanagement.Models.EntityAddress
+import com.example.rentalmanagement.Models.RoomSmallDisplay
 import com.example.rentalmanagement.R
 import com.example.rentalmanagement.ViewModels.HouseViewModels
 import com.example.rentalmanagement.databinding.ActivityMainBinding
@@ -37,6 +38,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -47,6 +49,7 @@ class MainActivity : AppCompatActivity() {
     private var fileUri: Uri? = null
     private val TAG: String = "Activity Main log"
     private lateinit var houseVM: HouseViewModels
+    private var roomData: List<List<RoomSmallDisplay>> = emptyList()
     private var bottomSheetBinding: BottomsheetAddAddressBinding? = null
 
     private fun createImage(uri: Uri, name: String) {
@@ -139,11 +142,11 @@ class MainActivity : AppCompatActivity() {
 
         fab = binding.homeFab
         rcv = binding.homeRcv
-        houseVM = ViewModelProvider(this)[HouseViewModels::class.java]
+        houseVM = ViewModelProvider(this@MainActivity)[HouseViewModels::class.java]
         adapter = HouseAdapter()
-        houseVM.getData.observe(this, Observer { data ->
+        houseVM.getData.observe(this) { data ->
             adapter.updateData(data)
-        })
+        }
         rcv.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
         rcv.adapter = adapter
 

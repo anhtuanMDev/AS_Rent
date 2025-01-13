@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/lb_create_temporary"
+        android:title="@string/menu_item_create_temporary"/>
+    <item android:id="@+id/lb_extend_temporary"
+        android:title="@string/menu_item_extend_temporary"/>
+    <item android:id="@+id/lb_delete_temporary"
+        android:title="@string/menu_item_delete_temporary"/>
+</menu>

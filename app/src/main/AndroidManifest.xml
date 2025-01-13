@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
-    <!--  for android 12 sdk 32 or lower  -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
-
-    <!--  for android 13 sdk 33 or higher  -->
+    <!-- for android 12 sdk 32 or lower -->
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" /> <!-- for android 13 sdk 33 or higher -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-
-    <!--  for android 14 sdk 34 or higher  -->
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" /> <!-- for android 14 sdk 34 or higher -->
     <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
 
     <application
@@ -22,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RentalManagement"
         tools:targetApi="31">
+        <activity
+            android:name=".Screen.DetailRoomActivity"
+            android:exported="false" />
         <activity
             android:name=".Screen.MainActivity"
             android:exported="true"

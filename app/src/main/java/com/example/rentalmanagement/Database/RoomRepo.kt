@@ -1,0 +1,34 @@
+package com.example.rentalmanagement.Database
+
+import androidx.lifecycle.LiveData
+import com.example.rentalmanagement.Interfaces.RoomDAO
+import com.example.rentalmanagement.Models.EntityRoom
+import com.example.rentalmanagement.Models.RoomSmallDisplay
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+class RoomRepo(private val roomDao: RoomDAO) {
+    fun getRoomData(houseID: Int): LiveData<List<EntityRoom>> = roomDao.getAllRoom(houseID)
+
+    fun insertNewRoom(data: EntityRoom) {
+        CoroutineScope(Dispatchers.IO).launch{
+            roomDao.insertRoom(data)
+        }
+    }
+
+    fun updateRoom(data: EntityRoom) {
+        CoroutineScope(Dispatchers.IO).launch{
+            roomDao.updateRoom(data)
+        }
+    }
+
+    fun deleteRoom(data: EntityRoom) {
+        CoroutineScope(Dispatchers.IO).launch{
+            roomDao.deleteRoom(data)
+        }
+    }
+
+    fun getRoomByHouseID(roomID: Int): List<RoomSmallDisplay> = roomDao.getMinInfoRoom(roomID)
+
+}

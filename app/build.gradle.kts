@@ -60,6 +60,8 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation (libs.androidx.material)
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.dotsindicator)
 }
 
 configurations.all {

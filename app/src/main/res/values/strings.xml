@@ -7,6 +7,11 @@
         <item>NHÀ CHO THUÊ</item>
     </string-array>
 
+    <!-- MENU UI   -->
+    <string name="menu_item_create_temporary">Đăng ký tạm trú</string>
+    <string name="menu_item_extend_temporary">Gia hạn tạm trú</string>
+    <string name="menu_item_delete_temporary">Xóa tạm trú</string>
+
     <!-- MAIN ACTIVITY UX-UI-->
 
     <!-- => UX/UI-->
@@ -14,6 +19,20 @@
 
     <!-- => DESCRIPTION   -->
     <string name="home_fab_description">Nút thêm mới địa chỉ căn hộ cho thuê</string>
+
+    <!-- DETAIL PEOPLE LAYOUT UX-UI-->
+
+    <!-- => UX/UI-->
+    <string name="detail_people_validate">Hồ Sơ Tạm Trú:</string>
+    <string name="detail_people_validate_date">Ngày Đăng Ký:</string>
+    <string name="detail_people_role_main_house">Chủ hộ:</string>
+    <string name="detail_people_role_family">Thành viên:</string>
+    <string name="detail_people_birth">Ngày Sinh:</string>
+    <string name="detail_people_id">Mã Định Danh:</string>
+    <string name="detail_people_phone">Số Điện Thoại:</string>
+    <string name="detail_people_deposit">Tiền Cọc (Nếu có):</string>
+    <string name="detail_people_pay_date">Ngày Thu Tiền Nhà:</string>
+    <string name="detail_people_permanent_resident">Địa Chỉ Thường Trú:</string>
 
     <!-- ADDRESS BOTTOM SHEET UX-UI-->
 

@@ -6,7 +6,7 @@
     android:layout_margin="10dp"
     app:cardCornerRadius="25dp">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -15,17 +15,21 @@
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/img_placeholder" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/house_holder_notify"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="15dp"
-            app:cardCornerRadius="20dp">
+            app:cardCornerRadius="20dp"
+            android:layout_marginEnd="@dimen/small_gap"
+            android:layout_marginTop="@dimen/small_gap"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/house_holder_number"
@@ -44,20 +48,21 @@
         <androidx.cardview.widget.CardView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="20dp"
             android:backgroundTint="@color/blue"
-            app:cardCornerRadius="15dp">
+            app:cardCornerRadius="15dp"
+            app:layout_constraintBottom_toBottomOf="@id/house_holder_image"
+            android:layout_marginBottom="@dimen/small_gap"
+            android:layout_marginStart="@dimen/small_gap"
+            app:layout_constraintStart_toStartOf="parent">
 
             <ImageView
                 android:id="@+id/house_holder_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/house"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:background="@drawable/house" />
 
         </androidx.cardview.widget.CardView>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#2196F3</color>
     <color name="lightBlue">#03A9F4</color>
+    <color name="fadeBlue">#B0E7FF</color>
     <color name="lightGrey">#888888</color>
     <color name="grey">#444444</color>
 
