@@ -2,8 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/large_gap">
+    android:layout_height="match_parent">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:id="@+id/bts_detail_drag"
@@ -30,12 +29,12 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/big_gap"
         android:layout_marginHorizontal="@dimen/big_gap"
+        android:layout_marginTop="@dimen/big_gap"
+        android:layout_marginBottom="@dimen/big_gap"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        android:layout_marginBottom="@dimen/big_gap"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bts_detail_header">
 
@@ -60,40 +59,34 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/bts_detail_address"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="10dp" />
+            <TextView
+                android:id="@+id/bts_detail_address"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1" />
 
-        <TextView
-            android:id="@+id/bts_detail_rooms"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/big_gap"
-            android:layout_marginHorizontal="@dimen/medium_gap"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/bts_detail_rooms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/medium_gap"
+                android:layout_marginTop="@dimen/big_gap"
+                android:textSize="14sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/bts_detail_rooms_display"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxHeight="500dp"
-        android:orientation="vertical"
+        android:layout_height="400dp"
+        android:layout_marginTop="@dimen/large_gap"
+        android:paddingBottom="@dimen/large_gap"
+        android:paddingHorizontal="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/bts_detail_rooms_display"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/big_gap"
-            android:paddingHorizontal="5dp" />
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

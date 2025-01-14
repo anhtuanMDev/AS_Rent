@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
@@ -132,13 +133,22 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        window.statusBarColor = ContextCompat.getColor(this, R.color.blue)
 
         fab = binding.homeFab
         rcv = binding.homeRcv
         houseVM = ViewModelProvider(this@MainActivity)[HouseViewModels::class.java]
         adapter = HouseAdapter(houseVM)
         houseVM.getData.observe(this) { data ->
-            adapter.updateData(data)
+            if (data.size == 0) {
+                adapter.updateData(data)
+                binding.emptyHouse.visibility = android.view.View.VISIBLE
+                binding.homeRcv.visibility = android.view.View.GONE
+            }else {
+                adapter.updateData(data)
+                binding.emptyHouse.visibility = android.view.View.GONE
+                binding.homeRcv.visibility = android.view.View.VISIBLE
+            }
         }
         rcv.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
         rcv.adapter = adapter

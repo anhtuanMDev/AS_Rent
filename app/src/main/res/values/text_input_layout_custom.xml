@@ -20,7 +20,6 @@
 
     <style name="TextAppearance.App.TextInputLayout.Hint" parent="TextAppearance.Material3.BodySmall">
         <item name="android:textColor">@color/text_input_layout_color_behavior</item>
-        <item name="android:textSize">10sp</item>
     </style>
 
 </resources>

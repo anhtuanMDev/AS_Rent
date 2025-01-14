@@ -79,7 +79,7 @@
         android:layout_marginTop="@dimen/small_gap"
         android:layout_marginHorizontal="@dimen/large_gap"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/detail_people_birth"
+        android:text="@string/form_birth"
         app:layout_constraintTop_toBottomOf="@id/detail_person_role"/>
 
     <TextView
@@ -91,7 +91,7 @@
         android:layout_marginTop="@dimen/small_gap"
         android:layout_marginHorizontal="@dimen/large_gap"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/detail_people_id"
+        android:text="@string/form_identification"
         app:layout_constraintTop_toBottomOf="@id/detail_person_birthday"/>
 
     <TextView
@@ -103,7 +103,7 @@
         android:layout_marginTop="@dimen/small_gap"
         android:layout_marginHorizontal="@dimen/large_gap"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/detail_people_phone"
+        android:text="@string/form_phone"
         app:layout_constraintTop_toBottomOf="@id/detail_person_identification"/>
 
     <TextView
@@ -139,7 +139,7 @@
         android:textSize="@dimen/medium_text"
         android:layout_marginHorizontal="@dimen/large_gap"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/detail_people_permanent_resident"
+        android:text="@string/form_permanent_resident"
         app:layout_constraintTop_toBottomOf="@id/detail_person_rent"/>
 
 

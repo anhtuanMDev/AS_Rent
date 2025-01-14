@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.rentalmanagement.Interfaces.AddressDAO
+import com.example.rentalmanagement.Interfaces.PeopleDAO
 import com.example.rentalmanagement.Interfaces.RoomDAO
 import com.example.rentalmanagement.Models.EntityAddress
 import com.example.rentalmanagement.Models.EntityPeople
@@ -14,6 +15,7 @@ import com.example.rentalmanagement.Models.EntityRoom
 abstract class AppDatabase: RoomDatabase() {
     abstract fun addressDao(): AddressDAO
     abstract fun roomDao(): RoomDAO
+    abstract fun peopleDao(): PeopleDAO
 
 
     companion object {

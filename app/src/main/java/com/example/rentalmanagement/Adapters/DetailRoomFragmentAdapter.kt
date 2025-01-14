@@ -8,7 +8,7 @@ import com.example.rentalmanagement.Models.EntityPeople
 
 class DetailRoomFragmentAdapter(
     fragmentActivity: FragmentActivity,
-    private val fragments: List<EntityPeople>
+    private var fragments: List<EntityPeople>
 ) : FragmentStateAdapter(fragmentActivity) {
     override fun getItemCount(): Int = fragments.size
 
@@ -30,4 +30,8 @@ class DetailRoomFragmentAdapter(
         )
     }
 
+    fun updateData(newFragments: List<EntityPeople>) {
+        fragments = newFragments
+        notifyDataSetChanged()
+    }
 }

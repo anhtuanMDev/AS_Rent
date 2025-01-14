@@ -2,9 +2,7 @@ package com.example.rentalmanagement.Database
 
 import androidx.lifecycle.LiveData
 import com.example.rentalmanagement.Interfaces.AddressDAO
-import com.example.rentalmanagement.Interfaces.RoomDAO
 import com.example.rentalmanagement.Models.EntityAddress
-import com.example.rentalmanagement.Models.EntityRoom
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

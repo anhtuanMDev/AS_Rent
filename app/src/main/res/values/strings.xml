@@ -1,10 +1,100 @@
 <resources>
     <!-- GLOBAL VARIABLE-->
     <string name="app_name">Quản lý chung cư</string>
+    <string name="add_button">Thêm Thông Tin</string>
+    <string name="finish_button">Hoàn Tất</string>
+    <string name="form_name">Họ và tên</string>
+    <string name="form_identification">Mã Định Danh:</string>
+    <string name="form_birth">Ngày Sinh:</string>
+    <string name="form_permanent_resident">Địa Chỉ Thường Trú:</string>
+    <string name="form_gender">Giới Tính</string>
+    <string name="form_phone">Số Điện Thoại</string>
+    <string name="form_email">Email</string>
+
     <string-array name="apartment_type">
         <item>DÃY TRỌ</item>
         <item>CHUNG CƯ</item>
         <item>NHÀ CHO THUÊ</item>
+    </string-array>
+
+    <string-array name="gender">
+        <item>Nam</item>
+        <item>Nữ</item>
+    </string-array>
+
+    <string-array name="relationship">
+        <item>Anh</item>
+        <item>Anh Chồng</item>
+        <item>Anh Vợ</item>
+        <item>Anh Họ</item>
+        <item>Anh Rể</item>
+        <item>Anh Ruột</item>
+        <item>Ba</item>
+        <item>Bà</item>
+        <item>Bà Ngoại</item>
+        <item>Bà Nội</item>
+        <item>Bác</item>
+        <item>Bạn</item>
+        <item>Bố</item>
+        <item>Cậu</item>
+        <item>Cha</item>
+        <item>Cha Đẻ</item>
+        <item>Cha Nuôi</item>
+        <item>Cha Vợ</item>
+        <item>Cháu</item>
+        <item>Cháu Dâu</item>
+        <item>Cháu Họ</item>
+        <item>Cháu Ngoại</item>
+        <item>Cháu Nội</item>
+        <item>Cháu Rể</item>
+        <item>Chắt</item>
+        <item>Chị Chồng</item>
+        <item>Chị Dâu</item>
+        <item>Chị Họ</item>
+        <item>Chị Ruột</item>
+        <item>Chị Vợ</item>
+        <item>Chồng</item>
+        <item>Chú</item>
+        <item>Chưa có thông tin</item>
+        <item>Con</item>
+        <item>Con Chồng</item>
+        <item>Con Dâu</item>
+        <item>Con Đẻ</item>
+        <item>Con Nuôi</item>
+        <item>Con Rể</item>
+        <item>Con Vợ</item>
+        <item>Cô</item>
+        <item>Cụ</item>
+        <item>Cùng Ở Thuê</item>
+        <item>Dì</item>
+        <item>Đồng Nghiệp (CA)</item>
+        <item>Đồng Nghiệp (QĐ)</item>
+        <item>Em Chồng</item>
+        <item>Em Dâu</item>
+        <item>Em Họ</item>
+        <item>Em Rể</item>
+        <item>Em Ruột</item>
+        <item>Em Vợ</item>
+        <item>Khác</item>
+        <item>Mẹ</item>
+        <item>Mẹ Chồng</item>
+        <item>Mẹ Đẻ</item>
+        <item>Mẹ Nuôi</item>
+        <item>Mẹ Vợ</item>
+        <item>Người Được Chăm Sóc</item>
+        <item>Người Được Giám Hộ</item>
+        <item>Người Được Nuôi Dưỡng</item>
+        <item>Người Được Trợ Giúp</item>
+        <item>Người Mượn Nhà</item>
+        <item>Người Ở Nhờ</item>
+        <item>Người Thuê Nhà</item>
+        <item>Nhân Khấu Tập Thể</item>
+        <item>Ông</item>
+        <item>Ông Ngoại</item>
+        <item>Ông Nội</item>
+        <item>Thím</item>
+        <item>Tía</item>
+        <item>Vợ</item>
     </string-array>
 
     <!-- MENU UI   -->
@@ -27,12 +117,10 @@
     <string name="detail_people_validate_date">Ngày Đăng Ký:</string>
     <string name="detail_people_role_main_house">Chủ hộ:</string>
     <string name="detail_people_role_family">Thành viên:</string>
-    <string name="detail_people_birth">Ngày Sinh:</string>
-    <string name="detail_people_id">Mã Định Danh:</string>
-    <string name="detail_people_phone">Số Điện Thoại:</string>
     <string name="detail_people_deposit">Tiền Cọc (Nếu có):</string>
     <string name="detail_people_pay_date">Ngày Thu Tiền Nhà:</string>
-    <string name="detail_people_permanent_resident">Địa Chỉ Thường Trú:</string>
+    <string name="empty_house">Chỗ này có vẻ trống nhỉ, hãy thêm nhà để quản lý nào</string>
+    <string name="detail_people_empty_rental">Phòng có vẻ hơi trống, sao bạn không thêm người thuê mới</string>
 
     <!-- ADDRESS BOTTOM SHEET UX-UI-->
 
@@ -53,5 +141,15 @@
     <!-- => UX/UI-->
     <string name="bts_detail_money_header">Tiền thuê nhà</string>
 
+    <!-- ADD PEOPLE BOTTOM SHEET UX-UI -->
+
+    <!-- => UX/UI-->
+
+    <string name="bts_add_people_guide_personal">Thông Tin Cá Nhân</string>
+    <string name="bts_add_people_guide_family">Thành Viên Gia Đình</string>
+    <string name="bts_add_people_role">Vai Trò</string>
+    <string name="bts_add_people_validate_date">Ngày Đăng Ký Tạm Trú</string>
+    <string name="bts_add_people_start_rent_date">Ngày Thuê Nhà</string>
+    <string name="bts_add_people_family_role">Mối Quan Hệ</string>
 
 </resources>

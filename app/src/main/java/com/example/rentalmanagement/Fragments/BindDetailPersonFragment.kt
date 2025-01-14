@@ -106,11 +106,11 @@ class BindDetailPersonFragment : Fragment(R.layout.detail_person) {
             }
         }
 
-        val birthString = context?.getString(R.string.detail_people_birth)?.let {
+        val birthString = context?.getString(R.string.form_birth)?.let {
             StringBuilder(it)
                 .append(" ", birthday).toString()
         }
-        val phoneString = context?.getString(R.string.detail_people_phone)?.let {
+        val phoneString = context?.getString(R.string.form_phone)?.let {
             StringBuilder(it)
                 .append(" ", phoneNumber).toString()
         }
@@ -126,11 +126,11 @@ class BindDetailPersonFragment : Fragment(R.layout.detail_person) {
             StringBuilder(it)
                 .append(" ", validateDateText).toString()
         }
-        val permanentAddressString = context?.getString(R.string.detail_people_permanent_resident)?.let {
+        val permanentAddressString = context?.getString(R.string.form_permanent_resident)?.let {
             StringBuilder(it)
                 .append(" ", permanentAddressText).toString()
         }
-        val identificationString = context?.getString(R.string.detail_people_id)?.let {
+        val identificationString = context?.getString(R.string.form_identification)?.let {
             StringBuilder(it)
                 .append(" ", identifyIDText).toString()
         }
