@@ -1,5 +1,6 @@
 package com.example.rentalmanagement.Adapters
 
+import android.app.Application
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +18,7 @@ import com.example.rentalmanagement.databinding.BottomsheetDetailHouseBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
-class HouseAdapter() :
+class HouseAdapter(private val houseViewModel: HouseViewModels) :
     RecyclerView.Adapter<HouseAdapter.ViewHolder>() {
     private var dataset: List<EntityAddress> = emptyList()
     private val validate = ValidateUtils()
@@ -79,7 +80,17 @@ class HouseAdapter() :
             val sb = StringBuilder(dialogBinding.btsDetailRooms.text)
             sb.append(" Tổng số phòng:  ", address.room)
             dialogBinding.btsDetailRooms.text = sb
-            val adapter = RoomAdapter(List(address.room) { RoomSmallDisplay(id = 0, name = "") })
+
+            val adapter = RoomAdapter()
+
+            houseViewModel.getMinInfoRoom(address.id).observeForever { rooms ->
+                adapter.updateData(rooms)
+            }
+
+//            houseViewModel.getDisplayRoom(address.id).observeForever { rooms ->
+//                adapter.updateData(rooms)
+//            }
+//            val adapter = RoomAdapter(if (roomData.isNotEmpty()) roomData[position] else emptyList())
             dialogBinding.btsDetailRoomsDisplay.layoutManager =
                 GridLayoutManager(holder.itemView.context, 4, GridLayoutManager.VERTICAL, false)
 
@@ -89,6 +100,11 @@ class HouseAdapter() :
             }
             dialog.setContentView(dialogBinding.root)
             dialog.show()
+        }
+
+        holder.itemView.setOnLongClickListener {
+            houseViewModel.deleteHouse(address)
+            return@setOnLongClickListener true
         }
     }
 

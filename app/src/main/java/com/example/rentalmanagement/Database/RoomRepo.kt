@@ -10,8 +10,15 @@ import kotlinx.coroutines.launch
 
 class RoomRepo(private val roomDao: RoomDAO) {
     fun getRoomData(houseID: Int): LiveData<List<EntityRoom>> = roomDao.getAllRoom(houseID)
+    fun getMinInfoRoom(roomID: Int): LiveData<List<RoomSmallDisplay>> = roomDao.getMinInfoRoom(roomID)
 
     fun insertNewRoom(data: EntityRoom) {
+        CoroutineScope(Dispatchers.IO).launch{
+            roomDao.insertRoom(data)
+        }
+    }
+
+    fun insertNewRoom(data: List<EntityRoom>) {
         CoroutineScope(Dispatchers.IO).launch{
             roomDao.insertRoom(data)
         }
@@ -29,6 +36,10 @@ class RoomRepo(private val roomDao: RoomDAO) {
         }
     }
 
-    fun getRoomByHouseID(roomID: Int): List<RoomSmallDisplay> = roomDao.getMinInfoRoom(roomID)
+    fun deleteRoom(id: Int) {
+        CoroutineScope(Dispatchers.IO).launch{
+            roomDao.deleteRoom(id)
+        }
+    }
 
 }

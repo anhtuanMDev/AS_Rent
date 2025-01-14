@@ -8,7 +8,6 @@ data class EntityRoom (
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val houseID: Int,
     val name: String = "$id",
-    val hasPayRent: Boolean = false, // Đã thanh toán tiền nhà
 )
 
 data class RoomSmallDisplay (

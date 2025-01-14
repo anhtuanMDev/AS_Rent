@@ -10,8 +10,9 @@ import com.example.rentalmanagement.Models.RoomSmallDisplay
 import com.example.rentalmanagement.R
 import com.example.rentalmanagement.Screen.DetailRoomActivity
 
-class RoomAdapter(val dataset: List<RoomSmallDisplay>): RecyclerView.Adapter<RoomAdapter.ViewHolder>() {
+class RoomAdapter(): RecyclerView.Adapter<RoomAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    private var dataset: List<RoomSmallDisplay> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.min_room_holder, parent, false)
@@ -32,4 +33,10 @@ class RoomAdapter(val dataset: List<RoomSmallDisplay>): RecyclerView.Adapter<Roo
             holder.itemView.context.startActivity(intent)
         }
     }
+
+    fun updateData(newDataset: List<RoomSmallDisplay>) {
+        dataset = newDataset
+        notifyDataSetChanged()
+    }
+
 }

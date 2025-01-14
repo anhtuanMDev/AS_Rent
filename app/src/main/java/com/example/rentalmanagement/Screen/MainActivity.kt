@@ -9,10 +9,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -20,15 +17,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rentalmanagement.Adapters.HouseAdapter
 import com.example.rentalmanagement.Models.EntityAddress
-import com.example.rentalmanagement.Models.RoomSmallDisplay
+import com.example.rentalmanagement.Models.EntityRoom
 import com.example.rentalmanagement.R
 import com.example.rentalmanagement.ViewModels.HouseViewModels
 import com.example.rentalmanagement.databinding.ActivityMainBinding
@@ -38,7 +33,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -49,7 +43,6 @@ class MainActivity : AppCompatActivity() {
     private var fileUri: Uri? = null
     private val TAG: String = "Activity Main log"
     private lateinit var houseVM: HouseViewModels
-    private var roomData: List<List<RoomSmallDisplay>> = emptyList()
     private var bottomSheetBinding: BottomsheetAddAddressBinding? = null
 
     private fun createImage(uri: Uri, name: String) {
@@ -143,7 +136,7 @@ class MainActivity : AppCompatActivity() {
         fab = binding.homeFab
         rcv = binding.homeRcv
         houseVM = ViewModelProvider(this@MainActivity)[HouseViewModels::class.java]
-        adapter = HouseAdapter()
+        adapter = HouseAdapter(houseVM)
         houseVM.getData.observe(this) { data ->
             adapter.updateData(data)
         }
@@ -179,24 +172,6 @@ class MainActivity : AppCompatActivity() {
                 requestImagePermission()
             }
         })
-
-//        bottomSheetBinding?.btsSpinner!!.onItemSelectedListener =
-//            object : AdapterView.OnItemSelectedListener {
-//                override fun onItemSelected(
-//                    parent: AdapterView<*>?,
-//                    view: View?,
-//                    position: Int,
-//                    id: Long
-//                ) {
-//                    val selectedItem = parent?.getItemAtPosition(position).toString()
-//                    Log.d(TAG, "Spinner selected item: $selectedItem")
-//                }
-//
-//                override fun onNothingSelected(parent: AdapterView<*>?) {
-//                    Toast.makeText(this@MainActivity, "Nothing selected", Toast.LENGTH_SHORT).show()
-//                    Log.d(TAG, "Spinner nothing selected")
-//                }
-//            }
 
         bottomSheetBinding?.btsBtnFinish!!.setOnClickListener {
             val address = bottomSheetBinding!!.btsEdtAddress.text.toString()

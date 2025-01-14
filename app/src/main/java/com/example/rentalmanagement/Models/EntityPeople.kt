@@ -18,4 +18,5 @@ data class EntityPeople(
     val startRentDate: String, // Ngày bắt đầu thuê nhà
     val comingUpPayDate: String?, // Ngày đến hạn thanh toán
     val permanentAddress: String,
+    val hasPayRent: Boolean = false,
 )

@@ -18,7 +18,7 @@ class BindDetailPersonFragment : Fragment(R.layout.detail_person) {
     private var permanentAddressText: String? = null
     private var email: String? = null
     private var name: String? = null
-    private var identifyID: String? = null
+    private var identifyIDText: String? = null
     private var gender: String? = null
     private var comingUpPay: String? = null
     private var rentDate: String? = null
@@ -70,7 +70,7 @@ class BindDetailPersonFragment : Fragment(R.layout.detail_person) {
             name = it.getString("name")
             gender = it.getString("gender")
             email = it.getString("email")
-            identifyID = it.getString("identifyID")
+            identifyIDText = it.getString("identifyID")
             permanentAddressText = it.getString("permanentAddress")
             validateDateText = it.getString("validateDate")
             comingUpPayDate = it.getString("comingUpPayDate")
@@ -132,7 +132,7 @@ class BindDetailPersonFragment : Fragment(R.layout.detail_person) {
         }
         val identificationString = context?.getString(R.string.detail_people_id)?.let {
             StringBuilder(it)
-                .append(" ", identifyID).toString()
+                .append(" ", identifyIDText).toString()
         }
         val validateStatusString = context?.getString(R.string.detail_people_validate)?.let {
             val status = if (validateDateText.isNullOrEmpty()) "Chưa xác minh" else "Đã xác minh"

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import com.example.rentalmanagement.Interfaces.AddressDAO
 import com.example.rentalmanagement.Interfaces.RoomDAO
 import com.example.rentalmanagement.Models.EntityAddress
-import com.example.rentalmanagement.Models.RoomSmallDisplay
+import com.example.rentalmanagement.Models.EntityRoom
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,8 +30,10 @@ class AddressRepo(private val addressDao: AddressDAO) {
         }
     }
 
-    fun getDisplayRoom(houseID: Int): LiveData<List<RoomSmallDisplay>> {
-        return addressDao.getMinInfoRoom(houseID)
+    fun getLastHouse(callBack: (EntityAddress) -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val data = addressDao.getLastData()
+            callBack(data!!)
+        }.isCompleted
     }
-
 }

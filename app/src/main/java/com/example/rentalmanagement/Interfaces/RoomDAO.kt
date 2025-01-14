@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.rentalmanagement.Models.EntityRoom
@@ -14,6 +15,9 @@ interface RoomDAO {
     @Insert
     suspend fun insertRoom(room: EntityRoom)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertRoom(data: List<EntityRoom>)
+
     @Update
     suspend fun updateRoom(newRoom: EntityRoom)
 
@@ -21,7 +25,10 @@ interface RoomDAO {
     fun getAllRoom(houseID: Int): LiveData<List<EntityRoom>>
 
     @Query("SELECT id, name FROM entityroom WHERE houseID = :houseID")
-    fun getMinInfoRoom (houseID: Int) : List<RoomSmallDisplay>
+    fun getMinInfoRoom (houseID: Int) : LiveData<List<RoomSmallDisplay>>
+
+    @Query("DELETE FROM entityroom WHERE houseID = :houseID")
+    suspend fun deleteRoom(houseID: Int)
 
     @Delete
     suspend fun deleteRoom(room: EntityRoom)
