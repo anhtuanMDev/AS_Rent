@@ -21,8 +21,11 @@
             app:cardCornerRadius="40dp">
 
             <ImageView
+                android:id="@+id/detail_person_avatar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/adult"/>
 
         </androidx.cardview.widget.CardView>
 

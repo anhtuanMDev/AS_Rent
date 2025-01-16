@@ -9,6 +9,12 @@
                     <corners android:radius="@dimen/medium_corner_round" />
                 </shape>
             </item>
+
+            <item>
+                <layer-list>
+                    <item android:drawable="@drawable/down_arrow" android:gravity="center_vertical|right" android:right="15dp" />
+                </layer-list>
+            </item>
         </layer-list>
     </item>
 

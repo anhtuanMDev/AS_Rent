@@ -7,11 +7,15 @@
     <dimen name="medium_gap">12dp</dimen>
     <dimen name="big_gap">16dp</dimen>
     <dimen name="large_gap">20dp</dimen>
+    <dimen name="huge_gap">24dp</dimen>
+    <dimen name="massive_gap">32dp</dimen>
+    <dimen name="tremendous_gap">60dp</dimen>
 
     <dimen name="small_corner_round">3dp</dimen>
     <dimen name="medium_corner_round">8dp</dimen>
     <dimen name="big_corner_round">15dp</dimen>
 
+    <dimen name="error_text_size">8sp</dimen>
     <dimen name="small_text">12sp</dimen>
     <dimen name="medium_text">16sp</dimen>
     <dimen name="big_text">20sp</dimen>

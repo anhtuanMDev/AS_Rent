@@ -106,6 +106,7 @@
 
     <!-- => UX/UI-->
     <string name="button_finish">Hoàn tất</string>
+    <string name="txt_apartment_type">Loại căn hộ</string>
 
     <!-- => DESCRIPTION   -->
     <string name="home_fab_description">Nút thêm mới địa chỉ căn hộ cho thuê</string>

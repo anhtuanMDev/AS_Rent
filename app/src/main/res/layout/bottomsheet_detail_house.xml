@@ -8,6 +8,7 @@
         android:id="@+id/bts_detail_drag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:tint="@color/blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -16,7 +17,7 @@
         android:id="@+id/bts_detail_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/medium_gap"
+        android:layout_marginHorizontal="@dimen/large_gap"
         android:textSize="18sp"
         android:textStyle="bold"
         app:drawableEndCompat="@drawable/edit"
@@ -81,7 +82,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/bts_detail_rooms_display"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/large_gap"
         android:paddingBottom="@dimen/large_gap"
         android:paddingHorizontal="5dp"

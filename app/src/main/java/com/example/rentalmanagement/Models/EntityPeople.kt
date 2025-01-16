@@ -21,3 +21,11 @@ data class EntityPeople(
     val permanentAddress: String,
     val hasPayRent: Boolean = false,
 )
+
+data class FamilyMemberModel (
+    val name: String,
+    val gender: String,
+    val birthday: String,
+    val relationship: String,
+    val identification: String,
+)

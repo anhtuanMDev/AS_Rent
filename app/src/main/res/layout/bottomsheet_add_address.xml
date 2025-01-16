@@ -85,14 +85,26 @@
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.example.rentalmanagement.Customs.NonClickableSpinner
-        android:id="@+id/bts_spinner"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        style="@style/spinner_style"
-        android:overScrollMode="never"
-        android:layout_marginBottom="15dp" />
+        android:layout_height="wrap_content"
+        style="@style/CustomAutoCompleteTextInputLayout"
+        android:enabled="true"
+        android:layout_marginBottom="@dimen/tremendous_gap"
+        app:endIconMode="dropdown_menu"
+        app:endIconTint="@color/text_input_layout_color_behavior"
+        app:errorEnabled="true">
 
+        <AutoCompleteTextView
+            android:id="@+id/bts_edt_apartment_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:background="@null"
+            android:popupBackground="@drawable/custom_background_fade_blue"
+            android:hint="@string/txt_apartment_type"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/bts_btn_finish"

@@ -18,13 +18,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rentalmanagement.Adapters.HouseAdapter
 import com.example.rentalmanagement.Models.EntityAddress
-import com.example.rentalmanagement.Models.EntityRoom
 import com.example.rentalmanagement.R
 import com.example.rentalmanagement.ViewModels.HouseViewModels
 import com.example.rentalmanagement.databinding.ActivityMainBinding
@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
     private val TAG: String = "Activity Main log"
     private lateinit var houseVM: HouseViewModels
     private var bottomSheetBinding: BottomsheetAddAddressBinding? = null
+    var apartmentTypes: List<String> = emptyList()
 
     private fun createImage(uri: Uri, name: String) {
         val cache = File(this.cacheDir, "images");
@@ -134,7 +135,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         window.statusBarColor = ContextCompat.getColor(this, R.color.blue)
-
+        apartmentTypes = resources.getStringArray(R.array.apartment_type).toList()
         fab = binding.homeFab
         rcv = binding.homeRcv
         houseVM = ViewModelProvider(this@MainActivity)[HouseViewModels::class.java]
@@ -144,7 +145,7 @@ class MainActivity : AppCompatActivity() {
                 adapter.updateData(data)
                 binding.emptyHouse.visibility = android.view.View.VISIBLE
                 binding.homeRcv.visibility = android.view.View.GONE
-            }else {
+            } else {
                 adapter.updateData(data)
                 binding.emptyHouse.visibility = android.view.View.GONE
                 binding.homeRcv.visibility = android.view.View.VISIBLE
@@ -168,42 +169,125 @@ class MainActivity : AppCompatActivity() {
         // Set the content view for the BottomSheetDialog using the binding's root
         bottomSheetDialog.setContentView(bottomSheetBinding?.root!!)
 
-        ArrayAdapter.createFromResource(
+        val adapter = ArrayAdapter(
             this,
-            R.array.apartment_type,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            bottomSheetBinding?.btsSpinner!!.adapter = adapter
-        }
+            android.R.layout.simple_spinner_dropdown_item,
+            apartmentTypes
+        )
 
+        bottomSheetBinding?.btsEdtApartmentType!!.setAdapter(adapter)
+        bottomSheetBinding?.btsEdtApartmentType?.setText(apartmentTypes[0])
         bottomSheetBinding?.btsImg?.setOnClickListener({
             lifecycleScope.launch(Dispatchers.IO) {
                 requestImagePermission()
             }
         })
 
+        addValidation(bottomSheetBinding!!)
+
         bottomSheetBinding?.btsBtnFinish!!.setOnClickListener {
-            val address = bottomSheetBinding!!.btsEdtAddress.text.toString()
-            val rooms = bottomSheetBinding!!.btsEdtRooms.text.toString().toInt()
-            val price = bottomSheetBinding!!.btsEdtPrice.text.toString().toInt()
-            val departmentType = bottomSheetBinding!!.btsSpinner.selectedItem.toString()
-            houseVM.addHouse(
-                EntityAddress(
-                    0,
-                    fileUri.toString(),
-                    address,
-                    price,
-                    departmentType,
-                    rooms,
-                    0,
-                    "",
-                    0.0
+            if (!validate(bottomSheetBinding!!)) {
+                return@setOnClickListener
+            } else {
+                val address = bottomSheetBinding!!.btsEdtAddress.text.toString()
+                val rooms = bottomSheetBinding!!.btsEdtRooms.text.toString().toInt()
+                val price = bottomSheetBinding!!.btsEdtPrice.text.toString().toInt()
+                val departmentType = bottomSheetBinding!!.btsEdtApartmentType.text.toString()
+                houseVM.addHouse(
+                    EntityAddress(
+                        0,
+                        fileUri.toString(),
+                        address,
+                        price,
+                        departmentType,
+                        rooms,
+                        0,
+                        "",
+                        0.0
+                    )
                 )
-            )
-            bottomSheetDialog.dismiss()
+                bottomSheetDialog.dismiss()
+            }
         }
         bottomSheetDialog.show()
     }
 
+    private fun addValidation(bind: BottomsheetAddAddressBinding) {
+
+        bind.btsEdtAddress.addTextChangedListener {
+            if (it.toString().isEmpty()) {
+                bind.btsEdtAddress.error = "Địa chỉ không được để trống"
+            } else bind.btsEdtAddress.error = null
+        }
+
+        bind.btsEdtRooms.addTextChangedListener { editable ->
+            if (editable.toString().isNotEmpty()) {
+                try {
+                    val rooms = editable.toString().toInt()
+                    when (bind.btsEdtApartmentType.text.toString()) {
+                        apartmentTypes[0] -> {
+                            if (rooms > 15 || rooms < 0) {
+                                bind.btsEdtRooms.error = "Số phòng tối đa cho phòng trọ là 15"
+                            } else {
+                                bind.btsEdtRooms.error = null
+                            }
+                        }
+
+                        apartmentTypes[1] -> {
+                            if (rooms > 10) {
+                                bind.btsEdtRooms.error = "Số phòng tối đa cho nhà là 10"
+                            } else {
+                                bind.btsEdtRooms.error = null
+                            }
+                        }
+
+                        apartmentTypes[2] -> {
+                            if (rooms < 10) {
+                                bind.btsEdtRooms.error = "Số phòng tối thiểu cho chung cư là 10"
+                            } else {
+                                bind.btsEdtRooms.error = null
+                            }
+                        }
+                    }
+                } catch (e: NumberFormatException) {
+                    bind.btsEdtRooms.error = "Vui lòng nhập số phòng hợp lệ"
+                }
+            } else {
+                bind.btsEdtRooms.error = "Số phòng không được để trống"
+            }
+        }
+
+        bind.btsEdtPrice.addTextChangedListener { editable ->
+            if (editable.toString().isNotEmpty()) {
+                try {
+                    val price = editable.toString().toInt()
+                    if (price < 1000000) {
+                        bind.btsEdtPrice.error = "Giá thuê tối thiểu là 1 triệu"
+                    } else {
+                        bind.btsEdtPrice.error = null
+                    }
+                } catch (e: NumberFormatException) {
+                    bind.btsEdtPrice.error = "Vui lòng nhập giá thuê hợp lệ"
+                }
+            } else {
+                bind.btsEdtPrice.error = "Giá thuê không được để trống"
+            }
+        }
+    }
+
+    private fun validate(bind: BottomsheetAddAddressBinding): Boolean {
+        if (bind.btsEdtAddress.error != null) {
+            Toast.makeText(this, "Vui lòng nhập đủ thông tin địa chỉ", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (bind.btsEdtRooms.error != null) {
+            Toast.makeText(this, "Vui lòng nhập đúng số lượng phòng", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (bind.btsEdtPrice.error != null) {
+            Toast.makeText(this, "Vui lòng nhập đúng giá thuê", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
+    }
 }

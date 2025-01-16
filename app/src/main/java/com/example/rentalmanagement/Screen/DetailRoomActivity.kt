@@ -2,6 +2,7 @@ package com.example.rentalmanagement.Screen
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +10,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rentalmanagement.Adapters.DetailRoomFragmentAdapter
+import com.example.rentalmanagement.Adapters.FamilyMemberAdapter
+import com.example.rentalmanagement.Models.FamilyMemberModel
 import com.example.rentalmanagement.R
 import com.example.rentalmanagement.ViewModels.DetailRoomViewModels
 import com.example.rentalmanagement.databinding.ActivityDetailRoomBinding
@@ -20,6 +24,8 @@ class DetailRoomActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailRoomBinding
     private lateinit var detailVM: DetailRoomViewModels
     private lateinit var extras: Bundle
+    private lateinit var genderString: List<String>
+    private lateinit var roleString: List<String>
     private val ROOM_ID: String = "id"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +44,10 @@ class DetailRoomActivity : AppCompatActivity() {
         detailVM = DetailRoomViewModels(application)
         setContentView(binding.root)
         window.statusBarColor = ContextCompat.getColor(this, R.color.blue)
+
+        genderString = resources.getStringArray(R.array.gender).toList()
+        roleString = resources.getStringArray(R.array.relationship).toList()
+
         val adapter = DetailRoomFragmentAdapter(this, emptyList())
 
         binding.detailRoomToolbar.setNavigationIcon(R.drawable.back)
@@ -45,7 +55,7 @@ class DetailRoomActivity : AppCompatActivity() {
             finish()
         }
 
-        detailVM.getData(extras.getInt(ROOM_ID)).observe(this){ data ->
+        detailVM.getData(extras.getInt(ROOM_ID)).observe(this) { data ->
             if (data.size > 0) {
                 adapter.updateData(data)
                 binding.detailRoomEmpty.visibility = View.GONE
@@ -67,13 +77,49 @@ class DetailRoomActivity : AppCompatActivity() {
     private fun createAddPeopleDialog() {
         val dialog = BottomSheetDialog(this)
 //        dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-        val dialogBind: BottomsheetAddPeopleBinding = BottomsheetAddPeopleBinding.inflate(layoutInflater)
-        addValidation(dialogBind)
+        val dialogBind: BottomsheetAddPeopleBinding =
+            BottomsheetAddPeopleBinding.inflate(layoutInflater)
+        bindDialogView(dialogBind)
+        bindAddPeopleView(dialogBind)
+        val adapter = FamilyMemberAdapter()
+        dialogBind.btsAddPeopleRcvFamilyList.adapter = adapter
+        dialogBind.btsAddPeopleRcvFamilyList.layoutManager = LinearLayoutManager(this)
+
+        dialogBind.btsAddPeopleTxtFamilyFinish.setOnClickListener {
+            val info = FamilyMemberModel(
+                dialogBind.btsAddPeopleEdtFamilyName.text.toString(),
+                dialogBind.btsAddPeopleSpnGender.text.toString(),
+                dialogBind.btsAddPeopleEdtFamilyBirth.text.toString(),
+                dialogBind.btsAddPeopleEdtRole.text.toString(),
+                dialogBind.btsAddPeopleEdtFamilyIdentification.text.toString(),
+            )
+            adapter.addData(info)
+        }
+
         dialog.setContentView(dialogBind.root)
         dialog.show()
     }
 
-    private fun addValidation(bind: BottomsheetAddPeopleBinding) {
+    private fun bindDialogView(bind: BottomsheetAddPeopleBinding) {
+
+        val rolAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            roleString
+        )
+        bind.btsAddPeopleEdtRole.setAdapter(rolAdapter)
+        bind.btsAddPeopleEdtFamilyRole.setAdapter(rolAdapter)
+
+        val genderAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            genderString
+        )
+
+        bind.btsAddPeopleSpnGender.setAdapter(genderAdapter)
+        bind.btsAddPeopleEdtFamilyGender.setAdapter(genderAdapter)
+
+
         bind.btsAddPeopleEdtName.addTextChangedListener {
             if (it.toString().isNotEmpty()) {
                 bind.btsAddPeopleLetName.error = null
@@ -91,10 +137,10 @@ class DetailRoomActivity : AppCompatActivity() {
         }
 
         bind.btsAddPeopleEdtIdentification.addTextChangedListener {
-            if (it.toString().isNotEmpty() && it.toString().length == 12) {
-                bind.btsAddPeopleLetIdentification.error = null
-            } else {
+            if (it.toString().isEmpty() && it.toString().length != 12) {
                 bind.btsAddPeopleLetIdentification.error = "Vui lòng nhập đúng số CMND/CCCD"
+            } else {
+                bind.btsAddPeopleLetIdentification.error = null
             }
         }
 
@@ -122,20 +168,38 @@ class DetailRoomActivity : AppCompatActivity() {
         }
     }
 
-    private fun validateAddPeople(bind: BottomsheetAddPeopleBinding): Boolean {
-        val name = bind.btsAddPeopleEdtName.text
-        val birth = bind.btsAddPeopleEdtBirth.text
-        val gender = bind.btsAddPeopleEdtGender.text
-        val identification = bind.btsAddPeopleEdtIdentification.text
-        val role = bind.btsAddPeopleEdtRole.text
-        val permanentAddress = bind.btsAddPeopleEdtPermanentAddress.text
-        val startRentDate = bind.btsAddPeopleEdtStartRentDate.text
-
-        if (name.toString().isNotEmpty() && birth.toString().isNotEmpty() && gender.toString().isNotEmpty() &&
-            identification.toString().isNotEmpty() && role.toString().isNotEmpty() &&
-            permanentAddress.toString().isNotEmpty() && startRentDate.toString().isNotEmpty()) {
-            return true
+    private fun bindAddPeopleView(bind: BottomsheetAddPeopleBinding) {
+        bind.btsAddPeopleEdtFamilyName.addTextChangedListener {
+            if (it.toString().isNotEmpty()) {
+                bind.btsAddPeopleLetFamilyName.error = null
+            } else {
+                bind.btsAddPeopleLetFamilyName.error = "Vui lòng nhập đầy đủ họ tên"
+            }
         }
+
+        bind.btsAddPeopleEdtFamilyIdentification.addTextChangedListener {
+            if (it.toString().isNotEmpty() && it.toString().length == 12) {
+                bind.btsAddPeopleLetFamilyIdentification.error = null
+            }else {
+                bind.btsAddPeopleLetFamilyIdentification.error = "Vui lòng nhập đúng số CMND/CCCD"
+            }
+        }
+    }
+
+    private fun validateAddPeople(bind: BottomsheetAddPeopleBinding): Boolean {
+        val name = bind.btsAddPeopleEdtName.text.toString()
+        val birth = bind.btsAddPeopleEdtBirth.text.toString()
+        val gender = bind.btsAddPeopleEdtFamilyGender.text.toString()
+        val identification = bind.btsAddPeopleEdtIdentification.text.toString()
+        val role = bind.btsAddPeopleEdtFamilyRole.text.toString()
+        val permanentAddress = bind.btsAddPeopleEdtPermanentAddress.text.toString()
+        val startRentDate = bind.btsAddPeopleEdtStartRentDate.text.toString()
+
+
         return false
+    }
+
+    private fun validateAddFamily(bind: BottomsheetAddPeopleBinding): Boolean {
+        return true
     }
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomAutoCompleteTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="errorTextAppearance">@style/TextAppearance.App.TextInputLayout.Error</item>
+        <item name="errorIconTint">@color/red</item>
+        <item name="boxStrokeColor">@color/text_input_layout_color_behavior</item>
+        <item name="hintTextColor">@color/text_input_layout_color_behavior</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.CustomCorner</item>
+        <item name="boxStrokeErrorColor">@color/red</item>
+    </style>
+</resources>

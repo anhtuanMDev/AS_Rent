@@ -1,10 +1,19 @@
 package com.example.rentalmanagement.Fragments
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.rentalmanagement.R
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.Period
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
+import java.util.Locale
 
 class BindDetailPersonFragment : Fragment(R.layout.detail_person) {
 
@@ -83,6 +92,7 @@ class BindDetailPersonFragment : Fragment(R.layout.detail_person) {
 
         // Bind views
         val roleView: TextView = view.findViewById(R.id.detail_person_role)
+        val avatar: ImageView = view.findViewById(R.id.detail_person_avatar)
         val birthdayView: TextView = view.findViewById(R.id.detail_person_birthday)
         val phoneNumberView: TextView = view.findViewById(R.id.detail_person_phoneNumber)
         val depositView: TextView = view.findViewById(R.id.detail_person_deposit)
@@ -91,6 +101,15 @@ class BindDetailPersonFragment : Fragment(R.layout.detail_person) {
         val validateDate: TextView = view.findViewById(R.id.detail_person_validate_date)
         val permanentAddress: TextView = view.findViewById(R.id.detail_person_permanent_resident)
         val identification: TextView = view.findViewById(R.id.detail_person_identification)
+
+        // Calculate age
+        val age = birthday?.let { calculateAge(it, "dd/MM/yyyy") }
+
+        if (age != null && age > 14) {
+            avatar.setImageResource(R.drawable.adult)
+        } else {
+            avatar.setImageResource(R.drawable.baby)
+        }
 
         val nameString = if (role == context?.getString(R.string.detail_people_role_main_house)) {
             context?.getString(R.string.detail_people_role_main_house)?.let {
@@ -150,5 +169,25 @@ class BindDetailPersonFragment : Fragment(R.layout.detail_person) {
         validateDate.text = validateDateString
         permanentAddress.text = permanentAddressString
         identification.text = identificationString
+    }
+
+    fun calculateAge(birthDateString: String, dateFormat: String): Int {
+        // Define the date formatter
+        val dateFormatParser = SimpleDateFormat(dateFormat, Locale.getDefault())
+        dateFormatParser.isLenient = false
+        // Parse the input date string into a Date object
+        val birthDate = dateFormatParser.parse(birthDateString) ?: return -1
+        // Get the current date
+        val today = Calendar.getInstance()
+        // Set the birth date in a Calendar object
+        val birthDay = Calendar.getInstance()
+        birthDay.time = birthDate
+        // Calculate the age
+        var age = today.get(Calendar.YEAR) - birthDay.get(Calendar.YEAR)
+        // Adjust the age if the birth date hasn't occurred yet this year
+        if (today.get(Calendar.DAY_OF_YEAR) < birthDay.get(Calendar.DAY_OF_YEAR)) {
+            age--
+        }
+        return age
     }
 }

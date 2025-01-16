@@ -1,12 +1,14 @@
 package com.example.rentalmanagement.Adapters
 
 import android.app.Application
+import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
+import androidx.core.util.TypedValueCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rentalmanagement.Models.EntityAddress
@@ -84,6 +86,16 @@ class HouseAdapter(private val houseViewModel: HouseViewModels) :
             val adapter = RoomAdapter()
 
             houseViewModel.getMinInfoRoom(address.id).observeForever { rooms ->
+                if (rooms.size > 44) {
+                    val params = dialogBinding.btsDetailRoomsDisplay.layoutParams
+                    params.height = dpToPx(450, context)
+                    dialogBinding.btsDetailRoomsDisplay.layoutParams = params
+                } else {
+                    val params = dialogBinding.btsDetailRoomsDisplay.layoutParams
+                    params.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                    dialogBinding.btsDetailRoomsDisplay.layoutParams = params
+                }
+
                 adapter.updateData(rooms)
             }
 
@@ -112,6 +124,11 @@ class HouseAdapter(private val houseViewModel: HouseViewModels) :
     fun updateData(newDataset: List<EntityAddress>) {
         dataset = newDataset
         notifyDataSetChanged()
+    }
+
+    fun dpToPx(dp: Int, context: Context): Int {
+        val density = context.resources.displayMetrics.density
+        return (dp * density + 0.5f).toInt()
     }
 
 }
