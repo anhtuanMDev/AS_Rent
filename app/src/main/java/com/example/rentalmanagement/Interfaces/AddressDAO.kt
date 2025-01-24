@@ -8,7 +8,6 @@ import androidx.room.Query
 import androidx.room.Update
 import com.example.rentalmanagement.Models.EntityAddress
 import com.example.rentalmanagement.Models.EntityRoom
-import com.example.rentalmanagement.Models.RoomSmallDisplay
 
 @Dao
 interface AddressDAO {
@@ -21,6 +20,9 @@ interface AddressDAO {
 
     @Query("SELECT * FROM entityaddress")
     fun getAddress(): LiveData<List<EntityAddress>>
+
+    @Query("SELECT * FROM entityroom")
+    suspend fun getDataAddress(): List<EntityRoom>
 
     @Query("SELECT * FROM entityaddress ORDER BY id DESC LIMIT 1")
     suspend fun getLastData(): EntityAddress?

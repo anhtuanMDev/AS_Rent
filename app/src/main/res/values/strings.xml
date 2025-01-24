@@ -10,6 +10,7 @@
     <string name="form_gender">Giới Tính</string>
     <string name="form_phone">Số Điện Thoại</string>
     <string name="form_email">Email</string>
+    <string name="form_update">Chỉnh sửa</string>
 
     <string-array name="apartment_type">
         <item>DÃY TRỌ</item>
@@ -20,6 +21,11 @@
     <string-array name="gender">
         <item>Nam</item>
         <item>Nữ</item>
+    </string-array>
+
+    <string-array name="contract_role">
+        <item>Chủ Hộ</item>
+        <item>Thành Viên</item>
     </string-array>
 
     <string-array name="relationship">
@@ -116,10 +122,11 @@
     <!-- => UX/UI-->
     <string name="detail_people_validate">Hồ Sơ Tạm Trú:</string>
     <string name="detail_people_validate_date">Ngày Đăng Ký:</string>
-    <string name="detail_people_role_main_house">Chủ hộ:</string>
-    <string name="detail_people_role_family">Thành viên:</string>
+    <string name="detail_people_role_main_house">Chủ Hộ</string>
+    <string name="detail_people_role_family">Thành Viên</string>
     <string name="detail_people_deposit">Tiền Cọc (Nếu có):</string>
     <string name="detail_people_pay_date">Ngày Thu Tiền Nhà:</string>
+    <string name="detail_people_start_rent">Ngày Bắt Đầu Thuê:</string>
     <string name="empty_house">Chỗ này có vẻ trống nhỉ, hãy thêm nhà để quản lý nào</string>
     <string name="detail_people_empty_rental">Phòng có vẻ hơi trống, sao bạn không thêm người thuê mới</string>
 

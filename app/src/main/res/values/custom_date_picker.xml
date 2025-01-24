@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Custom theme for DatePickerDialog -->
+    <style name="CustomDatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <!-- Accent color for other elements in the dialog -->
+        <item name="colorAccent">@color/lightBlue</item>
+        <item name="android:colorAccent">@color/lightBlue</item>
+        <!-- Custom button styles -->
+        <item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+    </style>
+
+    <!-- Style for the positive button -->
+    <style name="PositiveButtonStyle" parent="Theme.MaterialComponents.Light">
+        <item name="android:background">@drawable/custom_background_fade_grey</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="backgroundTint">@color/blue</item>
+        <item name="android:layout_marginStart">@dimen/small_gap</item>
+    </style>
+
+    <!-- Style for the negative button -->
+    <style name="NegativeButtonStyle" parent="Theme.MaterialComponents.Light">
+        <item name="android:background">@drawable/custom_background_fade_grey</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+</resources>

@@ -1,17 +1,14 @@
 package com.example.rentalmanagement.Fragments
 
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.rentalmanagement.R
+import com.example.rentalmanagement.Utils.NumberUtils
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.Period
-import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
 
@@ -45,7 +42,8 @@ class BindDetailPersonFragment : Fragment(R.layout.detail_person) {
             phoneNumber: String,
             validateDate: String,
             permanentAddress: String,
-            registrationDate: String
+            registrationDate: String,
+            comingUpPayDate: String
         ): BindDetailPersonFragment {
             val fragment = BindDetailPersonFragment()
             val args = Bundle().apply {
@@ -61,6 +59,7 @@ class BindDetailPersonFragment : Fragment(R.layout.detail_person) {
                 putString("validateDate", validateDate)
                 putString("registrationDate", registrationDate)
                 putString("permanentAddress", permanentAddress)
+                putString("comingUpPayDate", comingUpPayDate)
             }
             fragment.arguments = args
             return fragment
@@ -78,6 +77,7 @@ class BindDetailPersonFragment : Fragment(R.layout.detail_person) {
             rentDate = it.getString("rentDate")
             name = it.getString("name")
             gender = it.getString("gender")
+            role = it.getString("roleInHouse")
             email = it.getString("email")
             identifyIDText = it.getString("identifyID")
             permanentAddressText = it.getString("permanentAddress")
@@ -91,16 +91,22 @@ class BindDetailPersonFragment : Fragment(R.layout.detail_person) {
         super.onViewCreated(view, savedInstanceState)
 
         // Bind views
-        val roleView: TextView = view.findViewById(R.id.detail_person_role)
+        val roleView: TextView = view.findViewById(R.id.detail_person_role_value)
+        val nameView: TextView = view.findViewById(R.id.detail_person_name_value)
         val avatar: ImageView = view.findViewById(R.id.detail_person_avatar)
-        val birthdayView: TextView = view.findViewById(R.id.detail_person_birthday)
-        val phoneNumberView: TextView = view.findViewById(R.id.detail_person_phoneNumber)
-        val depositView: TextView = view.findViewById(R.id.detail_person_deposit)
-        val rentDateView: TextView = view.findViewById(R.id.detail_person_rent)
+        val birthdayView: TextView = view.findViewById(R.id.detail_person_birthday_value)
+        val emailLayout: LinearLayout = view.findViewById(R.id.detail_person_email_layout)
+        val emailView: TextView = view.findViewById(R.id.detail_person_email_value)
+        val phoneLayout: LinearLayout = view.findViewById(R.id.detail_person_phone_layout)
+        val phoneNumberView: TextView = view.findViewById(R.id.detail_person_phoneNumber_value)
+        val depositLayout: LinearLayout = view.findViewById(R.id.detail_person_deposit_layout)
+        val depositView: TextView = view.findViewById(R.id.detail_person_deposit_value)
+        val payRentDateView: TextView = view.findViewById(R.id.detail_person_rent_value)
         val validateStatus: TextView = view.findViewById(R.id.detail_person_validate_status)
         val validateDate: TextView = view.findViewById(R.id.detail_person_validate_date)
+        val startRentView: TextView = view.findViewById(R.id.detail_person_start_rent_value)
         val permanentAddress: TextView = view.findViewById(R.id.detail_person_permanent_resident)
-        val identification: TextView = view.findViewById(R.id.detail_person_identification)
+        val identification: TextView = view.findViewById(R.id.detail_person_identification_value)
 
         // Calculate age
         val age = birthday?.let { calculateAge(it, "dd/MM/yyyy") }
@@ -111,47 +117,18 @@ class BindDetailPersonFragment : Fragment(R.layout.detail_person) {
             avatar.setImageResource(R.drawable.baby)
         }
 
-        val nameString = if (role == context?.getString(R.string.detail_people_role_main_house)) {
-            context?.getString(R.string.detail_people_role_main_house)?.let {
-                StringBuilder(it)
-                    .append(" ", name)
-                    .toString()
-            }
-        } else {
-            context?.getString(R.string.detail_people_role_family)?.let {
-                StringBuilder(it)
-                    .append(" ", name)
-                    .toString()
-            }
-        }
+        val numberUtils = NumberUtils()
+        val depositString = numberUtils.convertCurrency(deposit?.toInt() ?: 0)
 
-        val birthString = context?.getString(R.string.form_birth)?.let {
-            StringBuilder(it)
-                .append(" ", birthday).toString()
-        }
-        val phoneString = context?.getString(R.string.form_phone)?.let {
-            StringBuilder(it)
-                .append(" ", phoneNumber).toString()
-        }
-        val depositString = context?.getString(R.string.detail_people_deposit)?.let {
-            StringBuilder(it)
-                .append(" ", deposit).toString()
-        }
-        val rentDateString = context?.getString(R.string.detail_people_pay_date)?.let {
-            StringBuilder(it)
-                .append(" ", rentDate).toString()
-        }
-        val validateDateString = context?.getString(R.string.detail_people_validate_date)?.let {
-            StringBuilder(it)
-                .append(" ", validateDateText).toString()
-        }
+        val birthString =
+            birthday?.let {
+                StringBuilder(it)
+                    .append(" ($age)").toString()
+            }
+
         val permanentAddressString = context?.getString(R.string.form_permanent_resident)?.let {
             StringBuilder(it)
                 .append(" ", permanentAddressText).toString()
-        }
-        val identificationString = context?.getString(R.string.form_identification)?.let {
-            StringBuilder(it)
-                .append(" ", identifyIDText).toString()
         }
         val validateStatusString = context?.getString(R.string.detail_people_validate)?.let {
             val status = if (validateDateText.isNullOrEmpty()) "Chưa xác minh" else "Đã xác minh"
@@ -159,16 +136,35 @@ class BindDetailPersonFragment : Fragment(R.layout.detail_person) {
                 .append(" ", status).toString()
         }
 
+        if (role != context?.getString(R.string.detail_people_role_main_house)) {
+            depositLayout.visibility = View.GONE
+        }
+
         // Set data
-        roleView.text = nameString
+        roleView.text = role
         birthdayView.text = birthString
-        phoneNumberView.text = phoneString
-        depositView.text = depositString
-        rentDateView.text = rentDateString
+        nameView.text = name
+        startRentView.text = rentDate
         validateStatus.text = validateStatusString
-        validateDate.text = validateDateString
+        validateDate.text = validateDateText
         permanentAddress.text = permanentAddressString
-        identification.text = identificationString
+        identification.text = identifyIDText
+        payRentDateView.text = comingUpPayDate
+
+        //Hide if don't have value
+        depositView.text = depositString
+
+        if (email.isNullOrEmpty()) {
+            emailLayout.visibility = View.GONE
+        } else {
+            emailView.text = email
+        }
+
+        if (phoneNumber.isNullOrEmpty()) {
+            phoneLayout.visibility = View.GONE
+        } else {
+            phoneNumberView.text = phoneNumber
+        }
     }
 
     fun calculateAge(birthDateString: String, dateFormat: String): Int {

@@ -21,6 +21,16 @@ interface PeopleDAO {
     @Query("DELETE FROM entitypeople WHERE roomID = :roomID")
     suspend fun deletePeople(roomID: Int)
 
+    @Query("""
+        DELETE FROM EntityPeople 
+        WHERE roomID IN (
+            SELECT roomID 
+            FROM EntityRoom 
+            WHERE houseID = :addressID
+        )
+    """)
+    suspend fun deletePeopleByAddressID(addressID: Int)
+
     @Delete
     suspend fun deletePeople(people: EntityPeople)
 

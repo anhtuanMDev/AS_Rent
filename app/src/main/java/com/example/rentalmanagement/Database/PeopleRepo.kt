@@ -34,6 +34,12 @@ class PeopleRepo(private val peopleDAO: PeopleDAO) {
         }
     }
 
+    fun deletePeople(houseID: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            peopleDAO.deletePeopleByAddressID(houseID)
+        }
+    }
+
     fun updatePeople(data: EntityPeople) {
         CoroutineScope(Dispatchers.IO).launch {
             peopleDAO.insertPeople(data)

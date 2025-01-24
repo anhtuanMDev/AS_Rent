@@ -1,8 +1,10 @@
 package com.example.rentalmanagement.Adapters
 
+import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -115,9 +117,29 @@ class HouseAdapter(private val houseViewModel: HouseViewModels) :
         }
 
         holder.itemView.setOnLongClickListener {
-            houseViewModel.deleteHouse(address)
+            alertDeleteDialog(holder.itemView.context, {
+                houseViewModel.deleteHouse(address)
+            }, {
+                Log.d("Delete House", "Cancel")
+            })
             return@setOnLongClickListener true
         }
+    }
+
+    private fun alertDeleteDialog(context: Context, onConfirm: () -> Unit, onCancel: () -> Unit) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Bạn muốn xóa nơi này ?")
+        builder.setMessage("Bấm có để xác nhận và bấm không để hủy thao tác")
+        builder.setPositiveButton("Có") { dialog, which ->
+            onConfirm()
+            dialog.dismiss()
+        }
+        builder.setNegativeButton("Không") { dialog, which ->
+            onCancel()
+            dialog.dismiss()
+        }
+        val dialog = builder.create()
+        dialog.show()
     }
 
     // Method to update the data dynamically

@@ -23,4 +23,12 @@ class DetailRoomViewModels(application: Application) : AndroidViewModel(applicat
         return peopleRepo.getData(roomID)
     }
 
+    fun addData(data: EntityPeople) {
+        peopleRepo.insertNewPeople(data)
+    }
+
+    fun addData(data: List<EntityPeople>) {
+        peopleRepo.insertNewPeople(data)
+    }
+
 }

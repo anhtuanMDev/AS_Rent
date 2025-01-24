@@ -19,7 +19,7 @@ class DetailRoomFragmentAdapter(
             birthday = detail.birth,
             phoneNumber = detail.phoneNumber,
             deposit = "${detail.deposit}",
-            rentDate = "${detail.comingUpPayDate}",
+            rentDate = detail.startRentDate,
             permanentAddress = detail.permanentAddress,
             roleInHouse = detail.roleInHouse,
             name = detail.name,
@@ -27,6 +27,7 @@ class DetailRoomFragmentAdapter(
             validateDate = detail.validateDate,
             email = detail.email,
             identifyID = detail.identifyID,
+            comingUpPayDate = detail.comingUpPayDate!!
         )
     }
 
