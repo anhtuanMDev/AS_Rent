@@ -8,23 +8,47 @@
         android:id="@+id/bts_detail_drag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tint="@color/blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/blue" />
 
-    <TextView
-        android:id="@+id/bts_detail_header"
+    <LinearLayout
+        android:id="@+id/bts_detail_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/large_gap"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:drawableEndCompat="@drawable/edit"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bts_detail_drag" />
+        app:layout_constraintTop_toBottomOf="@+id/bts_detail_drag">
+
+        <TextView
+            android:id="@+id/bts_detail_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="@dimen/large_gap"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/bts_detail_address_edit"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            app:tint="@color/blue"
+            android:layout_marginEnd="@dimen/big_gap"
+            app:srcCompat="@drawable/house_edit"/>
+
+        <ImageView
+            android:id="@+id/bts_detail_address_add_room"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="@dimen/big_gap"
+            app:srcCompat="@drawable/house_add"
+            app:tint="@color/blue" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -37,7 +61,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bts_detail_header">
+        app:layout_constraintTop_toBottomOf="@+id/bts_detail_top">
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
@@ -84,10 +108,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/large_gap"
-        android:paddingBottom="@dimen/large_gap"
         android:paddingHorizontal="5dp"
+        android:paddingBottom="@dimen/large_gap"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"/>
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,6 +11,7 @@
     <string name="form_phone">Số Điện Thoại</string>
     <string name="form_email">Email</string>
     <string name="form_update">Chỉnh sửa</string>
+    <string name="meaningless_description">Nothing to worry about</string>
 
     <string-array name="apartment_type">
         <item>DÃY TRỌ</item>
@@ -104,6 +105,18 @@
     </string-array>
 
     <!-- MENU UI   -->
+    <string name="menu_people_behavior">Quản lý người thuê</string>
+    <string name="menu_people_update">Cập nhật trạng thái thuê nhà</string>
+    <string name="menu_people_change">Thay đổi thông tin</string>
+    <string name="menu_people_delete_people">Xóa người thuê nhà</string>
+    <string name="menu_people_delete_all_people">Xóa hộ thuê nhà</string>
+
+    <string name="menu_room_behavior">Quản lý phòng</string>
+    <string name="menu_room_update">Chỉnh sửa thông tin phòng</string>
+    <string name="menu_room_delete">Xóa phòng</string>
+    <string name="menu_room_make_coppy">Tạo bản sao</string>
+
+    <string name="menu_legal_behavior">Thủ tục pháp lý</string>
     <string name="menu_item_create_temporary">Đăng ký tạm trú</string>
     <string name="menu_item_extend_temporary">Gia hạn tạm trú</string>
     <string name="menu_item_delete_temporary">Xóa tạm trú</string>
@@ -136,7 +149,8 @@
     <string name="bts_edt_electric">Tiền điện</string>
     <string name="bts_edt_water">Tiền nước</string>
     <string name="bts_edt_rooms">Số phòng</string>
-    <string name="bts_edt_price">Tiền thuê nhà</string>
+    <string name="bts_edt_name">Tên phòng</string>
+    <string name="bts_edt_price_per_room">Tiền thuê nhà mỗi phòng</string>
     <string name="bts_edt_address">Địa chỉ</string>
 
     <!-- => DESCRIPTION   -->

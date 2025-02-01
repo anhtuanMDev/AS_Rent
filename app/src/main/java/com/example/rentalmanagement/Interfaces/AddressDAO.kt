@@ -29,4 +29,7 @@ interface AddressDAO {
 
     @Delete
     suspend fun delete(address: EntityAddress)
+
+    @Query("UPDATE entityaddress SET room = :roomNumber WHERE id = :houseID")
+    suspend fun updateRoomNumber(houseID: Int, roomNumber: Int)
 }

@@ -19,10 +19,22 @@
         <ImageView
             android:id="@+id/register_temporary_show_file"
             android:layout_width="match_parent"
-            android:scaleType="centerInside"
+            android:scaleType="centerCrop"
+            android:minHeight="150dp"
+            android:background="@color/blue"
             android:layout_marginTop="@dimen/big_gap"
             android:layout_height="wrap_content" />
     </ScrollView>
+
+    <ImageView
+        android:id="@+id/renderText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

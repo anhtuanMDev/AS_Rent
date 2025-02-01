@@ -44,6 +44,7 @@ dependencies {
 
     implementation(libs.room.runtime)
     implementation(libs.androidx.espresso.core)
+    implementation(libs.play.services.ads)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
 

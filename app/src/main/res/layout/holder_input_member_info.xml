@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/bts_add_people_layout_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:errorEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/bts_add_people_let_family_name"
+            style="@style/CustomBlueTextInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/small_gap"
+            android:layout_weight="1"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/bts_add_people_edt_family_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/form_name"
+                android:inputType="text"
+                android:lines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/holder_input_member_info_role_ui"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_people_role_main_house"
+            android:textSize="@dimen/big_text"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginStart="@dimen/big_gap"
+            android:layout_marginEnd="@dimen/medium_gap"
+            android:gravity="center_vertical"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/holder_input_member_info_role_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:trackTint="@color/switch_track_color_behavior"
+            app:thumbTint="@color/switch_thumb_color_behavior"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/bts_add_people_lnl4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bts_add_people_layout_top">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/bts_add_people_let_family_birth"
+            style="@style/CustomBlueTextInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/small_gap"
+            android:layout_weight="1"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/bts_add_people_edt_family_birth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:hint="@string/form_birth"
+                android:inputType="text|date"
+                android:lines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/bts_add_people_let_family_gender"
+            style="@style/CustomAutoCompleteTextInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:endIconMode="dropdown_menu"
+            app:endIconTint="@color/text_input_layout_color_behavior"
+            app:errorEnabled="true">
+
+            <AutoCompleteTextView
+                android:id="@+id/bts_add_people_edt_family_gender"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/form_gender"
+                android:inputType="text"
+                android:lines="1"
+                android:popupBackground="@drawable/custom_background_fade_blue" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/bts_add_people_let_family_identification"
+        style="@style/CustomBlueTextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:errorEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bts_add_people_lnl4"
+        tools:layout_editor_absoluteY="474dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/bts_add_people_edt_family_identification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/form_identification"
+            android:inputType="number"
+            android:lines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/bts_add_people_lnl5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bts_add_people_let_family_identification">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/bts_add_people_let_family_role"
+            style="@style/CustomAutoCompleteTextInputLayout"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/small_gap"
+            app:endIconMode="dropdown_menu"
+            app:endIconTint="@color/text_input_layout_color_behavior"
+            app:errorEnabled="true">
+
+            <AutoCompleteTextView
+                android:id="@+id/bts_add_people_edt_family_role"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/bts_add_people_family_role"
+                android:inputType="text|date"
+                android:lines="1"
+                android:popupBackground="@drawable/custom_background_fade_blue" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/bts_add_people_txt_family_finish"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="@dimen/small_gap"
+            android:layout_weight="1"
+            android:background="@drawable/custom_button_shape"
+            android:gravity="center"
+            android:text="@string/add_button"
+            android:textColor="@color/white"
+            android:textSize="@dimen/medium_text"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package com.example.rentalmanagement.ViewModels
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.rentalmanagement.Database.AddressRepo
@@ -37,12 +38,10 @@ class HouseViewModels(application: Application) : AndroidViewModel(application) 
             houseRepo.insertNewHouse(data, callBack = {
                 houseRepo.getLastHouse(
                     callBack = {
-                        Log.d("GetLastHouse", "Last House: $it")
                         val roomArr = ArrayList<EntityRoom>()
                         for (i in 1..data.room) {
-                            roomArr.add(EntityRoom(0, it.id, ""))
+                            roomArr.add(EntityRoom(0, it.id, "$i"))
                         }
-                        Log.d("GetLastHouse", "Data: ${roomArr.size}")
                         roomRepo.insertNewRoom(roomArr)
                     }
                 )
@@ -50,8 +49,25 @@ class HouseViewModels(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    fun addRoom(houseID: Int, index: Int) {
+        roomRepo.insertNewRoom(EntityRoom(0, houseID, (index + 1).toString()))
+        houseRepo.updateRoomNumber(houseID, index + 1)
+    }
+
+    fun addRoom(houseID: Int, index: Int, list: List<EntityRoom>) {
+        roomRepo.insertNewRoom(list)
+        houseRepo.updateRoomNumber(houseID, index + list.size)
+
+    }
+
     fun getMinInfoRoom(houseID: Int): LiveData<List<RoomSmallDisplay>> {
         return roomRepo.getMinInfoRoom(houseID)
+    }
+
+    fun updateHouse(data: EntityAddress) {
+        viewModelScope.launch(Dispatchers.IO) {
+            houseRepo.updateHouse(data)
+        }
     }
 
     fun deleteHouse(data: EntityAddress) {

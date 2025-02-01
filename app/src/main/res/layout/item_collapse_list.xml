@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/motionLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layoutDescription="@xml/motion_scene">
+
+    <TextView
+        android:id="@+id/item_collapse_header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingStart="@dimen/big_gap"
+        android:paddingEnd="@dimen/big_gap"
+        android:gravity="center_vertical"
+        android:textStyle="bold"
+        android:textSize="@dimen/large_text"
+        android:text="@string/meaningless_description"
+        app:drawableEndCompat="@drawable/next_arrow"
+        app:drawableTint="@color/blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/item_collapse_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/medium_gap"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_collapse_header">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/item_collapse_content_rcv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

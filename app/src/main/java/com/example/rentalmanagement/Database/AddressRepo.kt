@@ -48,4 +48,10 @@ class AddressRepo(private val addressDao: AddressDAO) {
         }.isCompleted
     }
 
+    fun updateRoomNumber(houseID: Int, roomNumber: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            addressDao.updateRoomNumber(houseID, roomNumber)
+        }
+    }
+
 }

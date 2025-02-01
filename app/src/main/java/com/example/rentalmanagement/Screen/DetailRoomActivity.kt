@@ -22,6 +22,8 @@ import com.example.rentalmanagement.Adapters.FamilyMemberAdapter
 import com.example.rentalmanagement.Models.EntityPeople
 import com.example.rentalmanagement.Models.FamilyMemberModel
 import com.example.rentalmanagement.R
+import com.example.rentalmanagement.Utils.KeyTagUtils.Companion.HOUSE_ID
+import com.example.rentalmanagement.Utils.KeyTagUtils.Companion.ROOM_ID
 import com.example.rentalmanagement.ViewModels.DetailRoomViewModels
 import com.example.rentalmanagement.databinding.ActivityDetailRoomBinding
 import com.example.rentalmanagement.databinding.BottomsheetAddPeopleBinding
@@ -37,10 +39,9 @@ class DetailRoomActivity : AppCompatActivity() {
     private lateinit var genderString: List<String>
     private lateinit var relationshipString: List<String>
     private lateinit var roleString: List<String>
-    private val ROOM_ID: String = "id"
     private var dataHolder: FamilyMemberModel? = null
     private var familyAdapter: FamilyMemberAdapter? = null
-    private val TAG = "DetailRoomActivity TAG"
+    private var peopleAdapter: DetailRoomFragmentAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +60,22 @@ class DetailRoomActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         detailVM = DetailRoomViewModels(application)
+        detailVM.getNeighbours(extras.getInt(HOUSE_ID)).observe(this) { data ->
+            val current = data.find { it.id == extras.getInt(ROOM_ID) }
+            if (current != null) {
+                "Phòng ${current.name}".also { binding.detailRoomToolbarTitle.text = it }
+            }
+        }
+
+        binding.detailRoomToolbarBack.setOnClickListener {
+            navigateToPreviousRoom()
+        }
+
+        binding.detailRoomToolbarNext.setOnClickListener {
+            navigateToNextRoom()
+        }
+
+
         setContentView(binding.root)
         window.statusBarColor = ContextCompat.getColor(this, R.color.blue)
 
@@ -66,7 +83,7 @@ class DetailRoomActivity : AppCompatActivity() {
         relationshipString = resources.getStringArray(R.array.relationship).toList()
         roleString = resources.getStringArray(R.array.contract_role).toList()
 
-        val adapter = DetailRoomFragmentAdapter(this, emptyList())
+        peopleAdapter = DetailRoomFragmentAdapter(this, emptyList())
 
         binding.detailRoomToolbar.setNavigationIcon(R.drawable.back)
         binding.detailRoomToolbar.setNavigationOnClickListener {
@@ -75,7 +92,7 @@ class DetailRoomActivity : AppCompatActivity() {
 
         detailVM.getData(extras.getInt(ROOM_ID)).observe(this) { data ->
             if (data.size > 0) {
-                adapter.updateData(data)
+                peopleAdapter!!.updateData(data)
                 binding.detailRoomEmpty.visibility = View.GONE
                 binding.detailRoomViewpager.visibility = View.VISIBLE
             } else {
@@ -84,13 +101,68 @@ class DetailRoomActivity : AppCompatActivity() {
             }
         }
 
-        binding.detailRoomViewpager.adapter = adapter
+        binding.detailRoomViewpager.adapter = peopleAdapter
         binding.dotsIndicator.attachTo(binding.detailRoomViewpager)
 
         binding.detailRoomAddPeople.setOnClickListener {
             createAddPeopleDialog()
         }
     }
+
+    private fun navigateToPreviousRoom() {
+        detailVM.getNeighbours(extras.getInt(HOUSE_ID)).observe(this) { data ->
+            val currentRoomId = extras.getInt(ROOM_ID)
+            val currentIndex = data.indexOfFirst { it.id == currentRoomId }
+            if (currentIndex > 0) {
+                val previousRoom = data[currentIndex - 1]
+                updateRoomData(previousRoom.id)
+            } else {
+                val previousRoom = data[data.size - 1]
+                updateRoomData(previousRoom.id)
+            }
+        }
+    }
+
+    private fun navigateToNextRoom() {
+        detailVM.getNeighbours(extras.getInt(HOUSE_ID)).observe(this) { data ->
+            val currentRoomId = extras.getInt(ROOM_ID)
+            val currentIndex = data.indexOfFirst { it.id == currentRoomId }
+            if (currentIndex < data.size - 1) {
+                val nextRoom = data[currentIndex + 1]
+                updateRoomData(nextRoom.id)
+            } else {
+                val nextRoom = data[0]
+                updateRoomData(nextRoom.id)
+            }
+        }
+    }
+
+    private fun updateRoomData(newRoomId: Int) {
+        extras.putInt(ROOM_ID, newRoomId)
+
+        // Update room title
+        detailVM.getNeighbours(extras.getInt(HOUSE_ID)).observe(this) { data ->
+            val currentRoom = data.find { it.id == newRoomId }
+            if (currentRoom != null) {
+                "Phòng ${currentRoom.name}".also { binding.detailRoomToolbarTitle.text = it }
+            }
+        }
+
+        // Update ViewPager and other UI components
+        detailVM.getData(newRoomId).observe(this) { data ->
+            if (data.isNotEmpty()) {
+                peopleAdapter!!.updateData(data)
+                binding.detailRoomEmpty.visibility = View.GONE
+                binding.detailRoomViewpager.visibility = View.VISIBLE
+//                binding.dotsIndicator.visibility = View.VISIBLE
+            } else {
+                binding.detailRoomEmpty.visibility = View.VISIBLE
+                binding.detailRoomViewpager.visibility = View.GONE
+//                binding.dotsIndicator.visibility = View.GONE
+            }
+        }
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.legal_behavior, menu)
@@ -106,30 +178,30 @@ class DetailRoomActivity : AppCompatActivity() {
         bindAddPeopleView(dialogBind)
         familyAdapter = FamilyMemberAdapter { selectedMember ->
             dataHolder = selectedMember
-            dialogBind.btsAddPeopleTxtFamilyFinish.text = getString(R.string.form_update)
-            dialogBind.btsAddPeopleEdtFamilyName.setText(selectedMember.name)
-            dialogBind.btsAddPeopleEdtFamilyBirth.setText(selectedMember.birthday)
-            dialogBind.btsAddPeopleEdtFamilyGender.setText(selectedMember.gender)
-            dialogBind.btsAddPeopleEdtFamilyIdentification.setText(selectedMember.identification)
-            dialogBind.btsAddPeopleEdtFamilyRole.setText(selectedMember.relationship)
+            dialogBind.btsAddPeopleInclude.btsAddPeopleTxtFamilyFinish.text = getString(R.string.form_update)
+            dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyName.setText(selectedMember.name)
+            dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyBirth.setText(selectedMember.birthday)
+            dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyGender.setText(selectedMember.gender)
+            dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyIdentification.setText(selectedMember.identification)
+            dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyRole.setText(selectedMember.relationship)
 
-            dialogBind.btsAddPeopleEdtFamilyName.requestFocus()
+            dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyName.requestFocus()
         }
         dialogBind.btsAddPeopleRcvFamilyList.adapter = familyAdapter
         dialogBind.btsAddPeopleRcvFamilyList.layoutManager = LinearLayoutManager(this)
 
-        dialogBind.btsAddPeopleTxtFamilyFinish.setOnClickListener {
+        dialogBind.btsAddPeopleInclude.btsAddPeopleTxtFamilyFinish.setOnClickListener {
 
             val name =
-                dialogBind.btsAddPeopleEdtFamilyName.text.toString()
+                dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyName.text.toString()
             val gender =
-                dialogBind.btsAddPeopleEdtFamilyGender.text.toString()
+                dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyGender.text.toString()
             val birth =
-                dialogBind.btsAddPeopleEdtFamilyBirth.text.toString()
+                dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyBirth.text.toString()
             val role =
-                dialogBind.btsAddPeopleEdtFamilyRole.text.toString()
+                dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyRole.text.toString()
             val identification =
-                dialogBind.btsAddPeopleEdtFamilyIdentification.text.toString()
+                dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyIdentification.text.toString()
 
 
             val info = FamilyMemberModel(
@@ -139,30 +211,30 @@ class DetailRoomActivity : AppCompatActivity() {
                 role,
                 identification
             )
-            val nameEr = dialogBind.btsAddPeopleLetFamilyName.error.toString()
-            val genderEr = dialogBind.btsAddPeopleLetFamilyGender.error.toString()
-            val birthEr = dialogBind.btsAddPeopleLetFamilyBirth.error.toString()
-            val roleEr = dialogBind.btsAddPeopleLetFamilyRole.error.toString()
+            val nameEr = dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyName.error.toString()
+            val genderEr = dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyGender.error.toString()
+            val birthEr = dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyBirth.error.toString()
+            val roleEr = dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyRole.error.toString()
             val identificationEr =
-                dialogBind.btsAddPeopleLetFamilyIdentification.error.toString()
+                dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyIdentification.error.toString()
             val listEr = listOf(nameEr, genderEr, birthEr, roleEr, identificationEr)
 
             if (!validateAddFamily(listEr, info)) {
                 // to show empty error
                 if (name.isEmpty()) {
-                    dialogBind.btsAddPeopleEdtFamilyName.text = null
+                    dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyName.text = null
                 }
                 if (gender.isEmpty()) {
-                    dialogBind.btsAddPeopleEdtFamilyGender.text = null
+                    dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyGender.text = null
                 }
                 if (birth.isEmpty()) {
-                    dialogBind.btsAddPeopleEdtFamilyBirth.text = null
+                    dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyBirth.text = null
                 }
                 if (role.isEmpty()) {
-                    dialogBind.btsAddPeopleEdtFamilyRole.text = null
+                    dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyRole.text = null
                 }
                 if (identification.isEmpty()) {
-                    dialogBind.btsAddPeopleEdtFamilyIdentification.text = null
+                    dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyIdentification.text = null
                 }
             } else {
 
@@ -174,19 +246,19 @@ class DetailRoomActivity : AppCompatActivity() {
                 } else {
                     familyAdapter!!.addData(info)
                 }
-                dialogBind.btsAddPeopleEdtFamilyName.text!!.clear()
-                dialogBind.btsAddPeopleEdtFamilyGender.text!!.clear()
-                dialogBind.btsAddPeopleEdtFamilyBirth.text!!.clear()
-                dialogBind.btsAddPeopleEdtFamilyRole.text!!.clear()
-                dialogBind.btsAddPeopleEdtFamilyIdentification.text!!.clear()
+                dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyName.text!!.clear()
+                dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyGender.text!!.clear()
+                dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyBirth.text!!.clear()
+                dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyRole.text!!.clear()
+                dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyIdentification.text!!.clear()
 
-                dialogBind.btsAddPeopleLetFamilyName.error = null
-                dialogBind.btsAddPeopleLetFamilyGender.error = null
-                dialogBind.btsAddPeopleLetFamilyBirth.error = null
-                dialogBind.btsAddPeopleLetFamilyRole.error = null
-                dialogBind.btsAddPeopleLetFamilyIdentification.error = null
+                dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyName.error = null
+                dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyGender.error = null
+                dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyBirth.error = null
+                dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyRole.error = null
+                dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyIdentification.error = null
 
-                dialogBind.btsAddPeopleTxtFamilyFinish.text = getString(R.string.add_button)
+                dialogBind.btsAddPeopleInclude.btsAddPeopleTxtFamilyFinish.text = getString(R.string.add_button)
             }
         }
 
@@ -199,7 +271,10 @@ class DetailRoomActivity : AppCompatActivity() {
         createDateDialog(bind.btsAddPeopleEdtBirth)
         createDateDialog(bind.btsAddPeopleEdtValidateDate)
         createDateDialog(bind.btsAddPeopleEdtStartRentDate)
-        createDateDialog(bind.btsAddPeopleEdtFamilyBirth)
+        createDateDialog(bind.btsAddPeopleInclude.btsAddPeopleEdtFamilyBirth)
+
+        bind.btsAddPeopleInclude.holderInputMemberInfoRoleUi.visibility = View.GONE
+        bind.btsAddPeopleInclude.holderInputMemberInfoRoleSwitch.visibility = View.GONE
 
         val relationshipAdapter = ArrayAdapter(
             this,
@@ -212,7 +287,7 @@ class DetailRoomActivity : AppCompatActivity() {
             roleString
         )
         bind.btsAddPeopleEdtRole.setAdapter(roleAdapter)
-        bind.btsAddPeopleEdtFamilyRole.setAdapter(relationshipAdapter)
+        bind.btsAddPeopleInclude.btsAddPeopleEdtFamilyRole.setAdapter(relationshipAdapter)
 
         bind.btsAddPeopleEdtRole.addTextChangedListener {
             val str = it.toString()
@@ -233,15 +308,15 @@ class DetailRoomActivity : AppCompatActivity() {
             bind.btsAddPeopleEdtIdentification.requestFocus()
         }
 
-        bind.btsAddPeopleEdtFamilyRole.addTextChangedListener {
+        bind.btsAddPeopleInclude.btsAddPeopleEdtFamilyRole.addTextChangedListener {
             val str = it.toString()
             if (str.isNotEmpty()) {
                 if (!relationshipString.contains(str)) {
-                    bind.btsAddPeopleLetFamilyRole.error =
+                    bind.btsAddPeopleInclude.btsAddPeopleLetFamilyRole.error =
                         "Vui lòng chọn một trong những gợi ý hiển thị"
-                } else bind.btsAddPeopleLetFamilyRole.error = null
+                } else bind.btsAddPeopleInclude.btsAddPeopleLetFamilyRole.error = null
             } else {
-                bind.btsAddPeopleLetFamilyRole.error =
+                bind.btsAddPeopleInclude.btsAddPeopleLetFamilyRole.error =
                     "Vui lòng chọn mối quan hệ của bạn với chủ hộ"
             }
         }
@@ -253,7 +328,7 @@ class DetailRoomActivity : AppCompatActivity() {
         )
 
         bind.btsAddPeopleEdtGender.setAdapter(genderAdapter)
-        bind.btsAddPeopleEdtFamilyGender.setAdapter(genderAdapter)
+        bind.btsAddPeopleInclude.btsAddPeopleEdtFamilyGender.setAdapter(genderAdapter)
 
         bind.btsAddPeopleEdtGender.addTextChangedListener {
             val str = it.toString()
@@ -267,15 +342,15 @@ class DetailRoomActivity : AppCompatActivity() {
             }
         }
 
-        bind.btsAddPeopleEdtFamilyGender.addTextChangedListener {
+        bind.btsAddPeopleInclude.btsAddPeopleEdtFamilyGender.addTextChangedListener {
             val str = it.toString()
             if (str.isNotEmpty()) {
                 if (!genderString.contains(str)) {
-                    bind.btsAddPeopleLetFamilyGender.error =
+                    bind.btsAddPeopleInclude.btsAddPeopleLetFamilyGender.error =
                         "Vui lòng chọn một trong những gợi ý hiển thị"
-                } else bind.btsAddPeopleLetFamilyGender.error = null
+                } else bind.btsAddPeopleInclude.btsAddPeopleLetFamilyGender.error = null
             } else {
-                bind.btsAddPeopleLetFamilyGender.error =
+                bind.btsAddPeopleInclude.btsAddPeopleLetFamilyGender.error =
                     "Vui lòng chọn vai trò của bạn trong hợp đồng"
             }
         }
@@ -407,28 +482,28 @@ class DetailRoomActivity : AppCompatActivity() {
     }
 
     private fun bindAddPeopleView(bind: BottomsheetAddPeopleBinding) {
-        bind.btsAddPeopleEdtFamilyName.addTextChangedListener {
+        bind.btsAddPeopleInclude.btsAddPeopleEdtFamilyName.addTextChangedListener {
             if (it.toString().isNotEmpty()) {
-                bind.btsAddPeopleLetFamilyName.error = null
+                bind.btsAddPeopleInclude.btsAddPeopleLetFamilyName.error = null
             } else {
-                bind.btsAddPeopleLetFamilyName.error = "Vui lòng nhập đầy đủ họ tên"
+                bind.btsAddPeopleInclude.btsAddPeopleLetFamilyName.error = "Vui lòng nhập đầy đủ họ tên"
             }
         }
 
-        bind.btsAddPeopleEdtFamilyBirth.addTextChangedListener {
+        bind.btsAddPeopleInclude.btsAddPeopleEdtFamilyBirth.addTextChangedListener {
             if (it.toString().isNotEmpty()) {
-                bind.btsAddPeopleLetFamilyBirth.error = null
+                bind.btsAddPeopleInclude.btsAddPeopleLetFamilyBirth.error = null
             } else {
-                bind.btsAddPeopleLetFamilyBirth.error = "Vui lòng chọn ngày sinh"
+                bind.btsAddPeopleInclude.btsAddPeopleLetFamilyBirth.error = "Vui lòng chọn ngày sinh"
             }
         }
 
 
-        bind.btsAddPeopleEdtFamilyIdentification.addTextChangedListener {
+        bind.btsAddPeopleInclude.btsAddPeopleEdtFamilyIdentification.addTextChangedListener {
             if (it.toString().isNotEmpty() && it.toString().length == 12) {
-                bind.btsAddPeopleLetFamilyIdentification.error = null
+                bind.btsAddPeopleInclude.btsAddPeopleLetFamilyIdentification.error = null
             } else {
-                bind.btsAddPeopleLetFamilyIdentification.error = "Vui lòng nhập đúng số CMND/CCCD"
+                bind.btsAddPeopleInclude.btsAddPeopleLetFamilyIdentification.error = "Vui lòng nhập đúng số CMND/CCCD"
             }
         }
     }
@@ -480,7 +555,8 @@ class DetailRoomActivity : AppCompatActivity() {
                 val selectedMonth = datePicker.month + 1 // Month is 0-based
                 val selectedYear = datePicker.year
 
-                v.text = String.format("%02d/%02d/%04d", selectedDay, selectedMonth, selectedYear)
+                String.format("%02d/%02d/%04d", selectedDay, selectedMonth, selectedYear)
+                    .also { v.text = it }
             }
 
             // Custom negative button
@@ -512,6 +588,9 @@ class DetailRoomActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.pb_update_people -> {
+                return true
+            }
             R.id.lb_create_temporary -> {
                 createRegisterTemporaryForm()
                 return true
@@ -531,6 +610,13 @@ class DetailRoomActivity : AppCompatActivity() {
     private fun createRegisterTemporaryForm() {
         val intent = Intent(this, RegisterTemporaryActivity::class.java)
         intent.putExtra("roomID", extras.getInt(ROOM_ID))
+        startActivity(intent)
+    }
+
+    private fun createIntentUpdateHouseHold() {
+        val intent = Intent(this, UpdateRoomInfoActivity::class.java)
+        intent.putExtra("roomID", extras.getInt(ROOM_ID))
+        intent.putExtra("houseID", extras.getInt(HOUSE_ID))
         startActivity(intent)
     }
 

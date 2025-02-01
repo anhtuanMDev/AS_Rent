@@ -32,6 +32,7 @@ class DetailRoomFragmentAdapter(
     }
 
     fun updateData(newFragments: List<EntityPeople>) {
+        fragments = emptyList()
         fragments = newFragments
         notifyDataSetChanged()
     }

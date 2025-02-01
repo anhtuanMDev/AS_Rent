@@ -26,12 +26,14 @@
             android:gravity="center">
 
             <ImageView
+                android:id="@+id/detail_room_toolbar_back"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:srcCompat="@drawable/pre_arrow"
                 app:tint="@color/white" />
 
             <TextView
+                android:id="@+id/detail_room_toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/bts_detail_money_header"
@@ -44,6 +46,7 @@
                 />
 
             <ImageView
+                android:id="@+id/detail_room_toolbar_next"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:srcCompat="@drawable/next_arrow"
