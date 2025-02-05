@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -22,8 +23,10 @@ import com.example.rentalmanagement.Adapters.FamilyMemberAdapter
 import com.example.rentalmanagement.Models.EntityPeople
 import com.example.rentalmanagement.Models.FamilyMemberModel
 import com.example.rentalmanagement.R
+import com.example.rentalmanagement.Utils.KeyTagUtils
 import com.example.rentalmanagement.Utils.KeyTagUtils.Companion.HOUSE_ID
 import com.example.rentalmanagement.Utils.KeyTagUtils.Companion.ROOM_ID
+import com.example.rentalmanagement.Utils.ToastUtils
 import com.example.rentalmanagement.ViewModels.DetailRoomViewModels
 import com.example.rentalmanagement.databinding.ActivityDetailRoomBinding
 import com.example.rentalmanagement.databinding.BottomsheetAddPeopleBinding
@@ -178,13 +181,15 @@ class DetailRoomActivity : AppCompatActivity() {
         bindAddPeopleView(dialogBind)
         familyAdapter = FamilyMemberAdapter { selectedMember ->
             dataHolder = selectedMember
-            dialogBind.btsAddPeopleInclude.btsAddPeopleTxtFamilyFinish.text = getString(R.string.form_update)
+            dialogBind.btsAddPeopleInclude.btsAddPeopleTxtFamilyFinish.text =
+                getString(R.string.form_update)
             dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyName.setText(selectedMember.name)
             dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyBirth.setText(selectedMember.birthday)
             dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyGender.setText(selectedMember.gender)
-            dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyIdentification.setText(selectedMember.identification)
+            dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyIdentification.setText(
+                selectedMember.identification
+            )
             dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyRole.setText(selectedMember.relationship)
-
             dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyName.requestFocus()
         }
         dialogBind.btsAddPeopleRcvFamilyList.adapter = familyAdapter
@@ -202,22 +207,49 @@ class DetailRoomActivity : AppCompatActivity() {
                 dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyRole.text.toString()
             val identification =
                 dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyIdentification.text.toString()
+            val address =
+                dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyAddress.text.toString()
+                    .takeIf { it.isNotBlank() }
+                    ?: dialogBind.btsAddPeopleEdtPermanentAddress.text.toString()
+                        .takeIf { it.isNotBlank() }
+                    ?: ""
 
+            if (address.length == 0) {
+                dialogBind.btsAddPeopleEdtPermanentAddress.text = null
+                dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyAddress.text = null
+                ToastUtils.createToast(
+                    this,
+                    "Chưa đủ điều kiện",
+                    "Cần nhập ít nhất 1 địa chỉ",
+                    KeyTagUtils.WARNING
+                )
+                return@setOnClickListener
+            } else {
+                dialogBind.btsAddPeopleLetPermanentAddress.error = null
+            }
 
             val info = FamilyMemberModel(
                 name,
                 gender,
                 birth,
                 role,
-                identification
+                identification,
+                address
             )
+
             val nameEr = dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyName.error.toString()
-            val genderEr = dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyGender.error.toString()
+            val genderEr =
+                dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyGender.error.toString()
             val birthEr = dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyBirth.error.toString()
             val roleEr = dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyRole.error.toString()
             val identificationEr =
                 dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyIdentification.error.toString()
-            val listEr = listOf(nameEr, genderEr, birthEr, roleEr, identificationEr)
+            val addressEr =
+                dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyAddress.error.toString()
+                    .takeIf { it.isNotEmpty() }
+                    ?: dialogBind.btsAddPeopleLetPermanentAddress.error.toString()
+                        .takeIf { it.isNotEmpty() } ?: ""
+            val listEr = listOf(nameEr, genderEr, birthEr, roleEr, identificationEr, addressEr)
 
             if (!validateAddFamily(listEr, info)) {
                 // to show empty error
@@ -236,6 +268,9 @@ class DetailRoomActivity : AppCompatActivity() {
                 if (identification.isEmpty()) {
                     dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyIdentification.text = null
                 }
+                if (address.isEmpty()) {
+                    dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyAddress.text = null
+                }
             } else {
 
                 if (dataHolder != null) {
@@ -251,14 +286,17 @@ class DetailRoomActivity : AppCompatActivity() {
                 dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyBirth.text!!.clear()
                 dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyRole.text!!.clear()
                 dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyIdentification.text!!.clear()
+                dialogBind.btsAddPeopleInclude.btsAddPeopleEdtFamilyAddress.text!!.clear()
 
                 dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyName.error = null
                 dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyGender.error = null
                 dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyBirth.error = null
                 dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyRole.error = null
                 dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyIdentification.error = null
+                dialogBind.btsAddPeopleInclude.btsAddPeopleLetFamilyAddress.error = null
 
-                dialogBind.btsAddPeopleInclude.btsAddPeopleTxtFamilyFinish.text = getString(R.string.add_button)
+                dialogBind.btsAddPeopleInclude.btsAddPeopleTxtFamilyFinish.text =
+                    getString(R.string.add_button)
             }
         }
 
@@ -281,6 +319,7 @@ class DetailRoomActivity : AppCompatActivity() {
             android.R.layout.simple_spinner_dropdown_item,
             relationshipString
         )
+
         val roleAdapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_dropdown_item,
@@ -288,6 +327,13 @@ class DetailRoomActivity : AppCompatActivity() {
         )
         bind.btsAddPeopleEdtRole.setAdapter(roleAdapter)
         bind.btsAddPeopleInclude.btsAddPeopleEdtFamilyRole.setAdapter(relationshipAdapter)
+
+        Log.d(KeyTagUtils.TAG_LOG, "bindDialogView: ${peopleAdapter!!.fragments.size}")
+        if (peopleAdapter!!.fragments.isEmpty()) {
+            bind.btsAddPeopleEdtRole.setText(roleString[0])
+        } else {
+            bind.btsAddPeopleEdtRole.setText(roleString[1])
+        }
 
         bind.btsAddPeopleEdtRole.addTextChangedListener {
             val str = it.toString()
@@ -382,6 +428,7 @@ class DetailRoomActivity : AppCompatActivity() {
         bind.btsAddPeopleEdtPermanentAddress.addTextChangedListener {
             if (it.toString().isNotEmpty()) {
                 bind.btsAddPeopleLetPermanentAddress.error = null
+                bind.btsAddPeopleInclude.btsAddPeopleLetFamilyAddress.error = null
             } else {
                 bind.btsAddPeopleLetPermanentAddress.error =
                     "Vui lòng nhập đầy đủ địa chỉ thường trú"
@@ -430,29 +477,34 @@ class DetailRoomActivity : AppCompatActivity() {
 
             if (validateAddPeople(mainHouse)) {
                 detailVM.addData(mainHouse)
-                val family: List<EntityPeople> = familyAdapter!!.dataset.map {
-                    EntityPeople(
-                        0,
-                        roomID,
-                        it.name,
-                        0,
-                        it.birthday,
-                        email,
-                        it.gender,
-                        it.identification,
-                        phone,
-                        it.relationship,
-                        validateDate,
-                        startRent,
-                        comingUpPayDate,
-                        permanentAddress,
-                    )
-                }
-                if (family.isNotEmpty()) {
+                if (familyAdapter!!.dataset.size != 0) {
+                    val family: List<EntityPeople> = familyAdapter!!.dataset.map {
+                        EntityPeople(
+                            0,
+                            roomID,
+                            it.name,
+                            0,
+                            it.birthday,
+                            email,
+                            it.gender,
+                            it.identification,
+                            phone,
+                            it.relationship,
+                            validateDate,
+                            startRent,
+                            comingUpPayDate,
+                            it.permanentAddress
+                        )
+                    }
                     detailVM.addData(family)
                 }
                 dialog.dismiss()
-                Toast.makeText(this, "Hoàn tất", Toast.LENGTH_SHORT).show()
+                ToastUtils.createToast(
+                    this,
+                    "Hoàn tất",
+                    "Bạn đã thêm người thuê nhà thành công",
+                    KeyTagUtils.SUCCESS
+                )
             } else {
                 if (bind.btsAddPeopleEdtName.text!!.isEmpty()) {
                     bind.btsAddPeopleEdtName.text = null
@@ -475,7 +527,13 @@ class DetailRoomActivity : AppCompatActivity() {
                 if (bind.btsAddPeopleEdtStartRentDate.text!!.isEmpty()) {
                     bind.btsAddPeopleEdtStartRentDate.text = null
                 }
-                Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show()
+
+                ToastUtils.createToast(
+                    this,
+                    "Chưa đủ điều kiện",
+                    "Vui lòng điền đầy đủ thông tin",
+                    KeyTagUtils.WARNING
+                )
             }
 
         }
@@ -486,7 +544,8 @@ class DetailRoomActivity : AppCompatActivity() {
             if (it.toString().isNotEmpty()) {
                 bind.btsAddPeopleInclude.btsAddPeopleLetFamilyName.error = null
             } else {
-                bind.btsAddPeopleInclude.btsAddPeopleLetFamilyName.error = "Vui lòng nhập đầy đủ họ tên"
+                bind.btsAddPeopleInclude.btsAddPeopleLetFamilyName.error =
+                    "Vui lòng nhập đầy đủ họ tên"
             }
         }
 
@@ -494,7 +553,8 @@ class DetailRoomActivity : AppCompatActivity() {
             if (it.toString().isNotEmpty()) {
                 bind.btsAddPeopleInclude.btsAddPeopleLetFamilyBirth.error = null
             } else {
-                bind.btsAddPeopleInclude.btsAddPeopleLetFamilyBirth.error = "Vui lòng chọn ngày sinh"
+                bind.btsAddPeopleInclude.btsAddPeopleLetFamilyBirth.error =
+                    "Vui lòng chọn ngày sinh"
             }
         }
 
@@ -503,7 +563,19 @@ class DetailRoomActivity : AppCompatActivity() {
             if (it.toString().isNotEmpty() && it.toString().length == 12) {
                 bind.btsAddPeopleInclude.btsAddPeopleLetFamilyIdentification.error = null
             } else {
-                bind.btsAddPeopleInclude.btsAddPeopleLetFamilyIdentification.error = "Vui lòng nhập đúng số CMND/CCCD"
+                bind.btsAddPeopleInclude.btsAddPeopleLetFamilyIdentification.error =
+                    "Vui lòng nhập đúng số CMND/CCCD"
+            }
+        }
+
+        bind.btsAddPeopleInclude.btsAddPeopleEdtFamilyAddress.addTextChangedListener {
+            if (it.toString().isNotEmpty() || bind.btsAddPeopleEdtPermanentAddress.text.toString()
+                    .isNotEmpty()
+            ) {
+                bind.btsAddPeopleInclude.btsAddPeopleLetFamilyAddress.error = null
+            } else {
+                bind.btsAddPeopleInclude.btsAddPeopleLetFamilyAddress.error =
+                    "Vui lòng nhập đầy đủ địa chỉ thường trú"
             }
         }
     }
@@ -591,18 +663,22 @@ class DetailRoomActivity : AppCompatActivity() {
             R.id.pb_update_people -> {
                 return true
             }
+
             R.id.lb_create_temporary -> {
                 createRegisterTemporaryForm()
                 return true
             }
+
             R.id.lb_extend_temporary -> {
                 Toast.makeText(this, "Extend Temporary", Toast.LENGTH_SHORT).show()
                 return true
             }
+
             R.id.lb_delete_temporary -> {
                 Toast.makeText(this, "Delete Temporary", Toast.LENGTH_SHORT).show()
                 return true
             }
+
             else -> return super.onOptionsItemSelected(item)
         }
     }

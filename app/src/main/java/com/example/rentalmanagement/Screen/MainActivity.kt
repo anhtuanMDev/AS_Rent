@@ -23,6 +23,8 @@ import com.example.rentalmanagement.ViewModels.HouseViewModels
 import com.example.rentalmanagement.databinding.ActivityMainBinding
 import com.example.rentalmanagement.databinding.BottomsheetAddAddressBinding
 import com.example.rentalmanagement.Utils.CamerasUtils
+import com.example.rentalmanagement.Utils.KeyTagUtils
+import com.example.rentalmanagement.Utils.ToastUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -101,6 +103,7 @@ class MainActivity : AppCompatActivity() {
         bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
         // Use the correct way to inflate the BottomSheet layout using view binding
         bottomSheetBinding = BottomsheetAddAddressBinding.inflate(LayoutInflater.from(this))
+
 
         camerasUtils.imageView = bottomSheetBinding?.btsImg
         // Set the content view for the BottomSheetDialog using the binding's root

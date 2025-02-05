@@ -3,6 +3,13 @@ package com.example.rentalmanagement.Utils
 class KeyTagUtils {
     companion object {
 
+        // these are used as key for condition ui
+        val SUCCESS = "success"
+        val ERROR = "error"
+        val WARNING = "warning"
+        val LOGO = "logo"
+        val LOADING = "loading"
+
         // these are used as key for check error
         val TAG_LOG = "Log Check Error"
         val TAG_MESS = ">>> Message:"

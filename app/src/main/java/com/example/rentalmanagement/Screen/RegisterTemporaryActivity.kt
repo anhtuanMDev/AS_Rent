@@ -67,15 +67,14 @@ class RegisterTemporaryActivity : AppCompatActivity() {
         val page = pdfRenderer.openPage(0) // Render the first page of the original PDF
 
         // Get screen dimensions for scaling
-        val displayMetrics = context.resources.displayMetrics
-        val screenWidth = displayMetrics.widthPixels
-        val screenHeight = displayMetrics.heightPixels
+        val screenWidth = binding.registerTemporaryShowFile.width * 0.8
+        val screenHeight = binding.registerTemporaryShowFile.height
         val aspectRatio = page.width.toFloat() / page.height.toFloat()
         val targetWidth: Int
         val targetHeight: Int
 
         if (screenWidth / aspectRatio <= screenHeight) {
-            targetWidth = screenWidth
+            targetWidth = screenWidth.toInt()
             targetHeight = (screenWidth / aspectRatio).toInt()
         } else {
             targetHeight = screenHeight
@@ -88,56 +87,6 @@ class RegisterTemporaryActivity : AppCompatActivity() {
         page.close()
 
         binding.registerTemporaryShowFile.setImageBitmap(bitmap)
-
-        Log.d(TAG_LOG, "$main")
-        Log.d(TAG_LOG, "${list.size}")
-        Log.d(TAG_LOG, "$others")
-//        createBitmapWithText(main!!, others)
     }
-
-    private fun createBitmapWithText(mainInfo: EntityPeople, others: List<EntityPeople>) {
-        // Step 1: Define the dimensions of the Bitmap
-        val displayMetrics = this.resources.displayMetrics
-        val width = displayMetrics.widthPixels
-        val height = displayMetrics.heightPixels
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-
-        // Step 2: Create a Canvas and Paint for drawing
-        val canvas = Canvas(bitmap)
-        canvas.drawColor(Color.TRANSPARENT) // Set the background color to white
-
-        val paint = Paint().apply {
-            color = Color.BLACK
-            textSize = 16f
-            isAntiAlias = true
-            textAlign = Paint.Align.CENTER
-        }
-
-        Log.d(TAG_LOG, mainInfo.toString())
-
-        // Step 3: Draw some sample text
-        val sampleText = "Hello, this is a test!"
-        val xOffset = 150f
-        var yOffset = 100f
-
-        // Draw multiple lines of text for testing
-        canvas.drawText(sampleText, xOffset, yOffset, paint)
-        yOffset += 60f
-        canvas.drawText("Another line of text here.", xOffset, yOffset, paint)
-        yOffset += 60f
-        canvas.drawText("And one more for good measure.", xOffset, yOffset, paint)
-
-//        // Step 4: Draw shapes to test rendering (Optional)
-//        paint.color = Color.RED
-//        canvas.drawRect(50f, yOffset + 20f, 300f, yOffset + 80f, paint)
-//
-//        paint.color = Color.BLUE
-//        canvas.drawCircle(400f, yOffset + 50f, 30f, paint)
-
-        // Step 5: Set the Bitmap to the ImageView
-        binding.renderText.setImageBitmap(bitmap)
-    }
-
-
 
 }

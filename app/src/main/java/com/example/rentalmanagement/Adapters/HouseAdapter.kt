@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.LifecycleOwner
@@ -20,8 +19,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rentalmanagement.Models.EntityAddress
 import com.example.rentalmanagement.Models.EntityRoom
+import com.example.rentalmanagement.Models.RoomSmallDisplay
 import com.example.rentalmanagement.R
 import com.example.rentalmanagement.Utils.CamerasUtils
+import com.example.rentalmanagement.Utils.KeyTagUtils
+import com.example.rentalmanagement.Utils.ToastUtils
 import com.example.rentalmanagement.Utils.ValidateUtils
 import com.example.rentalmanagement.ViewModels.HouseViewModels
 import com.example.rentalmanagement.databinding.BottomsheetAddAddressBinding
@@ -30,6 +32,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class HouseAdapter(
@@ -124,7 +127,7 @@ class HouseAdapter(
             }
 
             dialogBinding.btsDetailAddressEdit.setOnClickListener {
-                createEditBottomSheet(context, address)
+                createEditBottomSheet(context, address, adapter.dataset)
                 dialog.dismiss()
             }
 
@@ -167,10 +170,9 @@ class HouseAdapter(
         dialog.show()
     }
 
-    private fun createEditBottomSheet(context: Context, address: EntityAddress) {
+    private fun createEditBottomSheet(context: Context, address: EntityAddress, roomList: List<RoomSmallDisplay>) {
         val dialog = BottomSheetDialog(context)
         val dialogBinding = BottomsheetAddAddressBinding.inflate(LayoutInflater.from(context))
-        Log.d("Address", address.toString())
         dialogBinding.btsEdtRooms.setText(with(address) { room.toString() })
         dialogBinding.btsEdtAddress.setText(address.address)
         dialogBinding.btsEdtPrice.setText(with(address) { price.toString() })
@@ -209,7 +211,47 @@ class HouseAdapter(
                 "",
                 0.0
             )
-            houseViewModel.updateHouse(newAddress)
+
+            if (address.room != newAddress.room) {
+                val rooms = address.room - newAddress.room
+                if (rooms > 0) {
+                    val roomLists = (newAddress.room..<address.room).map { roomList[it].id }
+                    Log.d(KeyTagUtils.TAG_LOG, roomLists.toString())
+                    houseViewModel.checkPeopleInRoom(roomLists, {
+                        if (!it) {
+                            lifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                                withContext(Dispatchers.Main) {
+                                    val builder = AlertDialog.Builder(context)
+                                    builder.setTitle("Bạn có muốn xóa không")
+                                    builder.setMessage("Một trong những phòng sẽ bị xóa do sự thay đổi có chứa thông tin nhạy cảm, bạn vẫn muốn tiếp tục chứ ?")
+                                    builder.setPositiveButton("Có") { dialog, _ ->
+                                        houseViewModel.deleteRoom(roomLists)
+                                        houseViewModel.updateHouse(newAddress)
+                                        dialog.dismiss()
+                                    }
+                                    builder.setNegativeButton("Không") { dialog, _ ->
+                                        dialog.dismiss()
+                                    }
+                                    builder.create().show()
+                                }
+                            }
+                        } else {
+                            houseViewModel.deleteRoom(roomLists)
+                            houseViewModel.updateHouse(newAddress)
+                        }
+                    })
+                } else if (rooms < 0) {
+                    val addList = (1..Math.abs(rooms)).map { roomNumber ->
+                        EntityRoom(
+                            id = 0,
+                            houseID = address.id,
+                            name = "${address.room + roomNumber}"
+                        )
+                    }
+                    houseViewModel.addRoom(address.id, address.room, addList)
+                    houseViewModel.updateHouse(newAddress)
+                }
+            }
             dialog.dismiss()
 
         }
@@ -237,6 +279,7 @@ class HouseAdapter(
         val editText = EditText(context)
         editText.inputType = InputType.TYPE_CLASS_NUMBER // Set input type to number
         editText.textSize = 18f // Set text size (in sp)
+        editText.hint = "Nhập số phòng muốn thêm"
 
         // Calculate margin in pixels
         val margin = dpToPx(16, context)

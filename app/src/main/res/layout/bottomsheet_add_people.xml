@@ -68,6 +68,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="@string/bts_add_people_role"
+                    android:cursorVisible="false"
+                    android:focusable="false"
                     app:endIconMode="dropdown_menu"
                     app:endIconTint="@color/text_input_layout_color_behavior"
                     android:popupBackground="@drawable/custom_background_fade_blue"

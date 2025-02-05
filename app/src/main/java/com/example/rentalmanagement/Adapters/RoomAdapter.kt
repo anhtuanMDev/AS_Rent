@@ -16,7 +16,7 @@ import com.example.rentalmanagement.ViewModels.HouseViewModels
 class RoomAdapter(private val houseID: Int, private val houseVM: HouseViewModels) : RecyclerView.Adapter<RoomAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
-    private var dataset: List<RoomSmallDisplay> = emptyList()
+    var dataset: List<RoomSmallDisplay> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =

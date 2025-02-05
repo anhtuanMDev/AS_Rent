@@ -28,4 +28,5 @@ data class FamilyMemberModel (
     val birthday: String,
     val relationship: String,
     val identification: String,
+    val permanentAddress: String,
 )

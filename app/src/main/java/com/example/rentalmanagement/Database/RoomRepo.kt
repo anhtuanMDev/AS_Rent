@@ -36,6 +36,12 @@ class RoomRepo(private val roomDao: RoomDAO) {
         }
     }
 
+    fun deleteRoom(data: List<Int>) {
+        CoroutineScope(Dispatchers.IO).launch{
+            roomDao.deleteRoom(data)
+        }
+    }
+
     fun deleteRoom(id: Int) {
         CoroutineScope(Dispatchers.IO).launch{
             roomDao.deleteRoom(id)

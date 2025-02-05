@@ -30,6 +30,9 @@ interface RoomDAO {
     @Query("DELETE FROM entityroom WHERE houseID = :houseID")
     suspend fun deleteRoom(houseID: Int)
 
+    @Query("DELETE FROM entityroom WHERE id IN (:room)")
+    suspend fun deleteRoom(room: List<Int>)
+
     @Delete
     suspend fun deleteRoom(room: EntityRoom)
 }

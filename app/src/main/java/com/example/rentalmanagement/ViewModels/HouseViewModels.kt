@@ -77,4 +77,24 @@ class HouseViewModels(application: Application) : AndroidViewModel(application) 
             houseRepo.deleteHouse(data)
         }
     }
+
+    fun checkPeopleInRoom(roomID: List<Int>, callBack: (Boolean) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            peopleRepo.checkPeopleInRoom(roomID, {
+                if (it) {
+                    callBack(true)
+                } else {
+                    callBack(false)
+                }
+            })
+        }
+    }
+
+    fun deleteRoom(data: List<Int>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            peopleRepo.deletePeople(data)
+            roomRepo.deleteRoom(data)
+        }
+
+    }
 }

@@ -1,7 +1,6 @@
 package com.example.rentalmanagement.Utils
 
 import android.net.Uri
-import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import com.example.rentalmanagement.databinding.BottomsheetAddAddressBinding
 import java.io.File
@@ -21,8 +20,8 @@ class ValidateUtils {
 
         bind.btsEdtAddress.addTextChangedListener {
             if (it.toString().isEmpty()) {
-                bind.btsEdtAddress.error = "Địa chỉ không được để trống"
-            } else bind.btsEdtAddress.error = null
+                bind.btsLetAddress.error = "Địa chỉ không được để trống"
+            } else bind.btsLetAddress.error = null
         }
 
         bind.btsEdtRooms.addTextChangedListener { editable ->
@@ -32,33 +31,33 @@ class ValidateUtils {
                     when (bind.btsEdtApartmentType.text.toString()) {
                         apartmentTypes[0] -> {
                             if (rooms > 15 || rooms < 0) {
-                                bind.btsEdtRooms.error = "Số phòng tối đa cho phòng trọ là 15"
+                                bind.btsLetRooms.error = "Số phòng tối đa cho phòng trọ là 15"
                             } else {
-                                bind.btsEdtRooms.error = null
+                                bind.btsLetRooms.error = null
                             }
                         }
 
                         apartmentTypes[1] -> {
                             if (rooms > 10) {
-                                bind.btsEdtRooms.error = "Số phòng tối đa cho nhà là 10"
+                                bind.btsLetRooms.error = "Số phòng tối đa cho nhà là 10"
                             } else {
-                                bind.btsEdtRooms.error = null
+                                bind.btsLetRooms.error = null
                             }
                         }
 
                         apartmentTypes[2] -> {
                             if (rooms < 10) {
-                                bind.btsEdtRooms.error = "Số phòng tối thiểu cho chung cư là 10"
+                                bind.btsLetRooms.error = "Số phòng tối thiểu cho chung cư là 10"
                             } else {
-                                bind.btsEdtRooms.error = null
+                                bind.btsLetRooms.error = null
                             }
                         }
                     }
                 } catch (e: NumberFormatException) {
-                    bind.btsEdtRooms.error = "Vui lòng nhập số phòng hợp lệ"
+                    bind.btsLetRooms.error = "Vui lòng nhập số phòng hợp lệ"
                 }
             } else {
-                bind.btsEdtRooms.error = "Số phòng không được để trống"
+                bind.btsLetRooms.error = "Số phòng không được để trống"
             }
         }
 
@@ -67,29 +66,55 @@ class ValidateUtils {
                 try {
                     val price = editable.toString().toInt()
                     if (price < 1000000) {
-                        bind.btsEdtPrice.error = "Giá thuê tối thiểu là 1 triệu"
+                        bind.btsLetPrice.error = "Giá thuê tối thiểu là 1 triệu"
                     } else {
-                        bind.btsEdtPrice.error = null
+                        bind.btsLetPrice.error = null
                     }
                 } catch (e: NumberFormatException) {
-                    bind.btsEdtPrice.error = "Vui lòng nhập giá thuê hợp lệ"
+                    bind.btsLetPrice.error = "Vui lòng nhập giá thuê hợp lệ"
                 }
             } else {
-                bind.btsEdtPrice.error = "Giá thuê không được để trống"
+                bind.btsLetPrice.error = "Giá thuê không được để trống"
+            }
+        }
+
+        bind.btsEdtApartmentType.addTextChangedListener {
+            if (it.toString().isEmpty()) {
+                bind.btsLetApartmentType.error = "Vui lòng chọn 1 kiểu nhà cho thuê"
+            } else if (it.toString() !in apartmentTypes) {
+                bind.btsLetApartmentType.error = "Không hỗ trợ kiểu nhà cho thuê này"
+            } else {
+                bind.btsLetApartmentType.error = null
             }
         }
     }
 
     fun checkErrorAddAddress(bind: BottomsheetAddAddressBinding): Boolean {
-        if (bind.btsEdtAddress.error != null) {
+        val address = bind.btsEdtAddress.text.toString()
+        val rooms = bind.btsEdtRooms.text.toString()
+        val price = bind.btsEdtPrice.text.toString()
+        val apartmentType = bind.btsEdtApartmentType.text.toString()
+
+        if (address.isEmpty()) {
+            bind.btsLetAddress.error = "Địa chỉ không được để trống"
+        }
+
+        if (rooms.isEmpty()) {
+            bind.btsLetRooms.error = "Số phòng không được để trống"
+        }
+
+        if (price.isEmpty()) {
+            bind.btsLetPrice.error = "Giá thuê không được để trống"
+        }
+
+        if (apartmentType.isEmpty()) {
+            bind.btsLetApartmentType.error = "Vui lòng chọn 1 kiểu nhà cho thuê"
+        }
+
+        if (address.isEmpty() || rooms.isEmpty() || price.isEmpty() || apartmentType.isEmpty()) {
             return false
         }
-        if (bind.btsEdtRooms.error != null) {
-            return false
-        }
-        if (bind.btsEdtPrice.error != null) {
-            return false
-        }
+
         return true
     }
 }

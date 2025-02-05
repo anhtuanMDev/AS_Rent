@@ -8,30 +8,13 @@
     android:fitsSystemWindows="true"
     tools:context=".Screen.RegisterTemporaryActivity">
 
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/register_temporary_show_file"
-            android:layout_width="match_parent"
-            android:scaleType="centerCrop"
-            android:minHeight="150dp"
-            android:background="@color/blue"
-            android:layout_marginTop="@dimen/big_gap"
-            android:layout_height="wrap_content" />
-    </ScrollView>
-
     <ImageView
-        android:id="@+id/renderText"
+        android:id="@+id/register_temporary_show_file"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/big_gap"
+        android:scaleType="centerCrop"
+        android:layout_marginHorizontal="@dimen/big_gap"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,8 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginHorizontal="@dimen/big_gap"
-        app:cardCornerRadius="@dimen/medium_corner_round"
         android:layout_marginBottom="@dimen/big_gap"
+        app:cardCornerRadius="@dimen/medium_corner_round"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -61,10 +44,10 @@
         android:id="@+id/register_temporary_loader"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:elevation="2dp"
-        android:visibility="gone"
         android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
