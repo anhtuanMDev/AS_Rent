@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     app:layoutDescription="@xml/motion_scene">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/item_collapse_header"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -14,6 +14,7 @@
         android:paddingEnd="@dimen/big_gap"
         android:gravity="center_vertical"
         android:textStyle="bold"
+        android:textColor="@color/md_theme_primary"
         android:textSize="@dimen/large_text"
         android:text="@string/meaningless_description"
         app:drawableEndCompat="@drawable/next_arrow"

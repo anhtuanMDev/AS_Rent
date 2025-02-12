@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".Screen.RegisterTemporaryActivity">
+    tools:context=".screen.RegisterTemporaryActivity">
 
     <ImageView
         android:id="@+id/register_temporary_show_file"
@@ -29,13 +29,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/blue"
+            android:background="@color/md_theme_primaryContainer"
             android:gravity="center"
             android:text="@string/button_finish"
-            android:textColor="@color/white"
             android:textSize="@dimen/big_text"
             android:textStyle="bold" />
     </androidx.cardview.widget.CardView>

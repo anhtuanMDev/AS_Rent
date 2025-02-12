@@ -6,13 +6,15 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/holder_family_people_name"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:gravity="start|center_vertical"
         android:paddingStart="15dp"
         android:textSize="@dimen/medium_text"
+        android:textColor="@color/md_theme_onSurface"
+        android:text="@string/meaningless_description"
         android:textStyle="bold"
         android:lines="1"
         android:ellipsize="end"
@@ -23,11 +25,13 @@
         android:layout_width="10dp"
         android:layout_height="10dp" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/holder_family_people_relationship"
         android:layout_width="150dp"
         android:layout_height="45dp"
+        android:textColor="@color/md_theme_onSurface"
         android:paddingEnd="15dp"
+        android:text="@string/meaningless_description"
         android:textSize="@dimen/medium_text"
         android:textStyle="italic"
         android:lines="1"

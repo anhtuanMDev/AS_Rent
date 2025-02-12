@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
+    android:background="@color/md_theme_surface"
     app:cardCornerRadius="25dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,9 +20,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/img_placeholder" />
+            app:srcCompat="@drawable/house_placeholder" />
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/house_holder_notify"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -35,14 +36,14 @@
                 android:id="@+id/house_holder_number"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/blue"
+                android:background="@color/md_theme_primary"
                 android:gravity="center"
                 android:text="1"
-                android:textColor="@color/white"
+                android:textColor="@color/md_theme_onPrimary"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
 
         <androidx.cardview.widget.CardView

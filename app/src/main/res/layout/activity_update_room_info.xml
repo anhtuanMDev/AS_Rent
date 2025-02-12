@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".Screen.UpdateRoomInfoActivity">
+    tools:context=".screen.UpdateRoomInfoActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -49,7 +49,7 @@
                     android:layout_gravity="center"
                     app:srcCompat="@drawable/empty_room_graffiti"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="360dp"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/big_text"
@@ -73,7 +73,7 @@
     </ScrollView>
 
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/large_gap"
@@ -84,15 +84,14 @@
         android:fitsSystemWindows="true"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@color/blue"
             android:gravity="center"
             android:text="@string/button_finish"
-            android:textColor="@color/white"
             android:textSize="@dimen/large_text"
+            android:background="@color/md_theme_primaryContainer"
             android:textStyle="bold" />
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

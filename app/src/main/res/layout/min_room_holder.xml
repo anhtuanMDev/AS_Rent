@@ -2,18 +2,18 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:backgroundTint="@color/blue"
+    android:backgroundTint="@color/md_theme_primary"
     app:cardCornerRadius="5dp"
     android:layout_margin="3dp"
     android:layout_height="30dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/holder_txt_room"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:layout_gravity="center"
         android:textSize="14sp"
-        android:textColor="@color/white"/>
+        android:textColor="@color/md_theme_onPrimary"/>
 
 </androidx.cardview.widget.CardView>

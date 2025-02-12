@@ -5,12 +5,14 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
+    android:background="@color/md_theme_surface"
     android:paddingHorizontal="15dp">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:id="@+id/bottomSheetDragHandleView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:tint="@color/md_theme_primary"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,8 +24,10 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/add"
-            android:contentDescription="@string/bts_img_description" />
+            android:background="@color/md_theme_inverseOnSurface"
+            android:contentDescription="@string/bts_img_description"
+            app:tint="@color/md_theme_onSurface"
+            app:srcCompat="@drawable/add" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,10 +37,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/bts_let_rooms"
+                style="@style/CustomBlueTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:errorEnabled="true"
-                style="@style/CustomBlueTextInputLayout">
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/bts_edt_rooms"
@@ -50,18 +54,16 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/bts_let_price"
+                style="@style/CustomBlueTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/CustomBlueTextInputLayout"
-                app:errorEnabled="true"
-                >
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/bts_edt_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints="200000"
-                    android:background="@null"
                     android:hint="@string/bts_edt_price_per_room"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -72,11 +74,10 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/bts_let_address"
+        style="@style/CustomBlueTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/CustomBlueTextInputLayout"
-        app:errorEnabled="true"
-        >
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/bts_edt_address"
@@ -90,11 +91,11 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/bts_let_apartment_type"
+        style="@style/CustomAutoCompleteTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/CustomAutoCompleteTextInputLayout"
-        android:enabled="true"
         android:layout_marginBottom="@dimen/tremendous_gap"
+        android:enabled="true"
         app:endIconMode="dropdown_menu"
         app:endIconTint="@color/text_input_layout_color_behavior"
         app:errorEnabled="true">
@@ -105,19 +106,18 @@
             android:layout_height="wrap_content"
             android:autofillHints=""
             android:background="@null"
-            android:popupBackground="@drawable/custom_background_fade_blue"
             android:hint="@string/txt_apartment_type"
-            android:inputType="text" />
+            android:inputType="text"
+            android:popupBackground="@drawable/custom_background_fade_blue" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/bts_btn_finish"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="30dp"
+        app:cornerRadius="@dimen/small_gap"
         android:layout_marginBottom="25dp"
-
-        android:backgroundTint="@color/lightBlue"
         android:text="@string/button_finish" />
 
 

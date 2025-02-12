@@ -6,7 +6,7 @@
         <item name="android:paddingRight">20dp</item>
         <item name="android:paddingTop">5dp</item>
         <item name="android:paddingBottom">5dp</item>
-        <item name="android:popupBackground">#FFFFFF</item>
+        <item name="android:popupBackground">@color/md_theme_onPrimary</item>
         <item name="android:drawableEnd">@android:drawable/arrow_down_float</item>
     </style>
 </resources>

@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/md_theme_surface">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:id="@+id/bts_detail_drag"
@@ -11,7 +12,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/blue" />
+        app:tint="@color/md_theme_primary" />
 
     <LinearLayout
         android:id="@+id/bts_detail_top"
@@ -37,7 +38,7 @@
             android:id="@+id/bts_detail_address_edit"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            app:tint="@color/blue"
+            app:tint="@color/md_theme_primary"
             android:layout_marginEnd="@dimen/big_gap"
             app:srcCompat="@drawable/house_edit"/>
 
@@ -47,7 +48,7 @@
             android:layout_height="45dp"
             android:layout_marginEnd="@dimen/big_gap"
             app:srcCompat="@drawable/house_add"
-            app:tint="@color/blue" />
+            app:tint="@color/md_theme_primary"/>
     </LinearLayout>
 
     <LinearLayout
@@ -76,7 +77,7 @@
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/img_placeholder" />
+                android:src="@drawable/house_placeholder" />
 
         </androidx.cardview.widget.CardView>
 

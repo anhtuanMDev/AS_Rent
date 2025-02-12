@@ -2,10 +2,16 @@
 <resources>
     <style name="CustomAutoCompleteTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
         <item name="errorTextAppearance">@style/TextAppearance.App.TextInputLayout.Error</item>
-        <item name="errorIconTint">@color/red</item>
+        <item name="errorIconTint">@color/md_theme_error</item>
         <item name="boxStrokeColor">@color/text_input_layout_color_behavior</item>
         <item name="hintTextColor">@color/text_input_layout_color_behavior</item>
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance.CustomCorner</item>
-        <item name="boxStrokeErrorColor">@color/red</item>
+        <item name="android:dropDownHintAppearance">@color/md_theme_onBackground</item>
+        <item name="boxStrokeErrorColor">@color/md_theme_error_highContrast</item>
+        <item name="background">@color/md_theme_errorContainer</item>
+    </style>
+
+    <style name="DropdownItemStyle" parent="Widget.AppCompat.ListView.DropDown">
+        <item name="android:textColor">@color/md_theme_onBackground</item>
     </style>
 </resources>

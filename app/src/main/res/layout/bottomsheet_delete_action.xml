@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tint="@color/md_theme_primary"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/medium_gap">
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/bts_delete_people_checkbox_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/header_check_all" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/bts_delete_people_rcv"
+        android:layout_width="match_parent"
+        android:paddingHorizontal="@dimen/medium_gap"
+        android:layout_marginTop="@dimen/small_gap"
+        android:paddingTop="@dimen/medium_gap"
+        android:layout_height="200dp" />
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/big_gap"
+        android:layout_marginVertical="@dimen/big_gap"
+        app:cardCornerRadius="@dimen/medium_corner_round">
+
+        <TextView
+            android:id="@+id/bts_delete_people_txt_finish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/md_theme_primary"
+            android:gravity="center"
+            android:paddingVertical="@dimen/big_gap"
+            android:text="@string/menu_people_delete_people"
+            android:textColor="@color/md_theme_onPrimary"
+            android:textSize="@dimen/medium_text"
+            android:textStyle="bold" />
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

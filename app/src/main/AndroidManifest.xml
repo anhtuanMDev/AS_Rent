@@ -25,16 +25,16 @@
             android:value="ca-app-pub-3940256099942544~3347511713" />
 
         <activity
-            android:name=".Screen.UpdateRoomInfoActivity"
+            android:name=".screen.UpdateRoomInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".Screen.RegisterTemporaryActivity"
+            android:name=".screen.RegisterTemporaryActivity"
             android:exported="false" />
         <activity
-            android:name=".Screen.DetailRoomActivity"
+            android:name=".screen.DetailRoomActivity"
             android:exported="false" />
         <activity
-            android:name=".Screen.MainActivity"
+            android:name=".screen.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>

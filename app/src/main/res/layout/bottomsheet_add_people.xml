@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/bts_add_people_ui_personal"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -20,9 +20,10 @@
             android:textSize="@dimen/big_text"
             android:drawablePadding="@dimen/small_gap"
             android:paddingStart="@dimen/small_gap"
-            android:textColor="@color/blue"
+            android:textColor="@color/md_theme_primary"
             android:textStyle="bold"
             app:drawableStartCompat="@drawable/small_dot"
+            app:drawableTint="@color/md_theme_primary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -135,6 +136,32 @@
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/bts_add_people_let_family_role_2"
+            style="@style/CustomAutoCompleteTextInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:endIconMode="dropdown_menu"
+            app:endIconTint="@color/text_input_layout_color_behavior"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bts_add_people_lnl1"
+            tools:layout_editor_absoluteY="474dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/bts_add_people_edt_family_role_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/bts_add_people_family_role"
+                app:endIconMode="dropdown_menu"
+                app:endIconTint="@color/text_input_layout_color_behavior"
+                android:popupBackground="@drawable/custom_background_fade_blue"
+                android:inputType="text"
+                android:lines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/bts_add_people_let_identification"
             style="@style/CustomBlueTextInputLayout"
             android:layout_width="match_parent"
@@ -143,7 +170,7 @@
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bts_add_people_lnl1"
+            app:layout_constraintTop_toBottomOf="@id/bts_add_people_let_family_role_2"
             tools:layout_editor_absoluteY="474dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -296,18 +323,20 @@
             android:id="@+id/bts_add_people_ui_family"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:gravity="center_vertical"
-            android:text="@string/bts_add_people_guide_family"
-            android:textSize="@dimen/big_text"
-            android:drawablePadding="@dimen/small_gap"
-            android:drawableStart="@drawable/small_dot"
-            android:paddingStart="@dimen/small_gap"
             android:layout_marginTop="@dimen/small_gap"
-            android:textColor="@color/blue"
+            android:drawablePadding="@dimen/small_gap"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/small_gap"
+            android:text="@string/bts_add_people_guide_family"
+            android:textColor="@color/md_theme_primary"
+            android:textSize="@dimen/big_text"
             android:textStyle="bold"
+            app:drawableStartCompat="@drawable/small_dot"
+            app:drawableTint="@color/md_theme_primary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bts_add_people_lnl3" />
+            app:layout_constraintTop_toBottomOf="@id/bts_add_people_lnl3"
+            tools:ignore="RtlSymmetry" />
 
         <include
             android:id="@+id/bts_add_people_include"
@@ -330,17 +359,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bts_add_people_include" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/bts_add_people_finish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/small_gap"
             android:layout_marginTop="@dimen/large_gap"
-            android:background="@drawable/custom_button_shape"
+            android:background="@color/md_theme_primary"
             android:gravity="center"
             android:paddingVertical="@dimen/medium_gap"
+            android:textColor="@color/md_theme_onPrimary"
             android:text="@string/finish_button"
-            android:textColor="@color/white"
             android:textSize="@dimen/medium_text"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"

@@ -33,24 +33,24 @@
                 android:lines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/holder_input_member_info_role_ui"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/detail_people_role_main_house"
             android:textSize="@dimen/big_text"
             android:textStyle="bold"
-            android:textColor="@color/black"
+            android:textColor="@color/md_theme_primary"
             android:layout_marginStart="@dimen/big_gap"
             android:layout_marginEnd="@dimen/medium_gap"
             android:gravity="center_vertical"/>
 
-        <androidx.appcompat.widget.SwitchCompat
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/holder_input_member_info_role_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:trackTint="@color/switch_track_color_behavior"
-            app:thumbTint="@color/switch_thumb_color_behavior"/>
+            app:thumbIcon="@drawable/thumb_switch"
+            />
 
     </LinearLayout>
 
@@ -175,16 +175,17 @@
                 android:popupBackground="@drawable/custom_background_fade_blue" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/bts_add_people_txt_family_finish"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_marginStart="@dimen/small_gap"
             android:layout_weight="1"
             android:background="@drawable/custom_button_shape"
+            android:backgroundTint="@color/md_theme_primary"
             android:gravity="center"
             android:text="@string/add_button"
-            android:textColor="@color/white"
+            android:textColor="@color/md_theme_onPrimary"
             android:textSize="@dimen/medium_text"
             android:textStyle="bold" />
     </LinearLayout>

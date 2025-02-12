@@ -11,6 +11,8 @@
     <string name="form_phone">Số Điện Thoại</string>
     <string name="form_email">Email</string>
     <string name="form_update">Chỉnh sửa</string>
+
+    <string name="header_check_all">Chọn tất cả</string>
     <string name="meaningless_description">Nothing to worry about</string>
 
     <string-array name="apartment_type">
